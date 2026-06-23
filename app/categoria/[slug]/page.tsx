@@ -7,7 +7,7 @@ import {
   productsByFamily,
 } from "@/lib/data/catalog";
 import { categories } from "@/lib/data/categories";
-import { SectionCatalog } from "@/components/products/SectionCatalog";
+import { CatalogBrowser } from "@/components/products/CatalogBrowser";
 
 export function generateStaticParams() {
   return catalogFamilies.map((f) => ({ slug: f.slug }));
@@ -69,7 +69,7 @@ export default async function CategoriaPage({
       </section>
 
       <section className="container-x py-12">
-        <SectionCatalog products={products} />
+        <CatalogBrowser products={products} lockedFamily={slug} />
       </section>
     </>
   );
