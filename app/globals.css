@@ -1,26 +1,117 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================================
+   MULTIACEROS B&M S.A.S — Sistema de diseño
+   Industrial premium · base CLARA · acentos negro + naranja
+   ============================================================ */
+
+@theme {
+  /* Marca */
+  --color-brand: #ff6a00;
+  --color-brand-dark: #d24e00;
+  --color-brand-soft: #ff8a3d;
+  --color-brand-tint: #fff4ec;
+
+  /* Tinta / oscuros (acento, no dominante) */
+  --color-ink: #14181f;
+  --color-ink-soft: #1d2530;
+  --color-ink-line: #2a3340;
+
+  /* Neutros claros */
+  --color-paper: #f6f7f9;
+  --color-paper-2: #eef0f3;
+  --color-line: #e7e9ee;
+  --color-muted: #66707f;
+
+  /* Tipografía */
+  --font-display: var(--font-space-grotesk);
+  --font-sans: var(--font-inter);
+
+  /* Métrica */
+  --radius-card: 1.1rem;
+  --shadow-card: 0 18px 40px -22px rgba(16, 22, 32, 0.35);
+  --shadow-soft: 0 10px 30px -18px rgba(16, 22, 32, 0.25);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 96px;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: #ffffff;
+    color: var(--color-ink);
+    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--color-brand);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+    border-radius: 4px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ---------- Utilidades ---------- */
+.container-x {
+  width: min(1200px, 92%);
+  margin-inline: auto;
+}
+
+.text-gradient {
+  background: linear-gradient(100deg, #ff8a3d 0%, #ff6a00 55%, #d24e00 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Patrón de cuadrícula sutil para fondos claros */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(20, 24, 31, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(20, 24, 31, 0.04) 1px, transparent 1px);
+  background-size: 38px 38px;
+}
+
+/* Resplandor decorativo naranja */
+.glow-brand {
+  background: radial-gradient(closest-side, rgba(255, 106, 0, 0.18), transparent);
+}
+
+/* ---------- Marquee ---------- */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ---------- Reveal on scroll ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .animate-marquee { animation: none; }
+  html { scroll-behavior: auto; }
 }
