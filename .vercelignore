@@ -1,0 +1,12 @@
+# Archivos que NO se suben a Vercel (Vercel NO lee .gitignore)
+
+# Datos sensibles (tokens, llaves) — nunca subir
+ret/
+
+# Entorno y artefactos locales
+.env*
+.git
+node_modules
+.next
+.vercel
+*.tsbuildinfo
