@@ -1,4 +1,4 @@
-import { Hero } from "@/components/home/Hero";
+import { HeroCarousel } from "@/components/home/HeroCarousel";
 import { Marquee } from "@/components/home/Marquee";
 import { Categories } from "@/components/home/Categories";
 import { FeaturedProducts } from "@/components/home/FeaturedProducts";
@@ -11,7 +11,7 @@ import { Contact } from "@/components/home/Contact";
 export default function Home() {
   return (
     <>
-      <Hero />
+      <HeroCarousel />
       <Marquee />
       <Categories />
       <FeaturedProducts />

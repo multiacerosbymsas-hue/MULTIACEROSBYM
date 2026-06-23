@@ -52,7 +52,7 @@ export default async function ProductoPage({
 
   return (
     <>
-      <section className="container-x py-8 lg:py-12">
+      <section className="container-x py-6 lg:py-10">
         <nav className="mb-6 text-sm text-muted">
           <Link href="/" className="hover:text-brand">
             Inicio
@@ -85,10 +85,10 @@ export default async function ProductoPage({
 
           {/* Información */}
           <div className="flex flex-col">
-            <p className="text-sm font-semibold uppercase tracking-wide text-brand">
+            <p className="text-xs font-semibold uppercase tracking-wide text-brand">
               {p.section}
             </p>
-            <h1 className="mt-1 font-display text-2xl font-bold leading-tight text-ink sm:text-3xl">
+            <h1 className="mt-1 font-display text-xl font-bold leading-tight text-ink sm:text-2xl">
               {p.name}
             </h1>
 
@@ -107,13 +107,13 @@ export default async function ProductoPage({
 
             {p.price ? (
               <div>
-                <span className="font-display text-4xl font-bold text-ink">
+                <span className="font-display text-3xl font-bold text-ink">
                   {formatCOP(p.price)}
                 </span>
                 <span className="ml-2 text-sm text-muted">/ {unit}</span>
               </div>
             ) : (
-              <p className="font-display text-2xl font-bold text-brand">
+              <p className="font-display text-xl font-bold text-brand">
                 Precio bajo cotización
               </p>
             )}
@@ -150,7 +150,7 @@ export default async function ProductoPage({
       {related.length > 0 && (
         <section className="bg-paper py-14">
           <div className="container-x">
-            <h2 className="mb-6 font-display text-xl font-bold text-ink">
+            <h2 className="mb-6 font-display text-lg font-bold text-ink">
               También en {p.section.toLowerCase()}
             </h2>
             <ProductTable products={related} />
