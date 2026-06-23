@@ -37,6 +37,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# datos sensibles (tokens, llaves) — eliminar manualmente, NUNCA subir
+/ret/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
