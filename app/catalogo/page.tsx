@@ -8,7 +8,7 @@ import {
   catalogTotals,
 } from "@/lib/data/catalog";
 import { categories } from "@/lib/data/categories";
-import { ProductBrowser } from "@/components/products/ProductBrowser";
+import { CatalogSearch } from "@/components/products/CatalogSearch";
 
 export const metadata: Metadata = {
   title: "Catálogo",
@@ -82,9 +82,9 @@ export default function CatalogoPage() {
       {/* Buscador global */}
       <section className="container-x pb-20">
         <h2 className="mb-6 font-display text-xl font-bold text-ink">
-          Todos los productos
+          Buscar en todo el catálogo
         </h2>
-        <ProductBrowser products={allProducts} />
+        <CatalogSearch products={allProducts} />
       </section>
     </>
   );

@@ -12,7 +12,7 @@ import {
 } from "@/lib/data/catalog";
 import { formatCOP } from "@/lib/utils/format";
 import { BuyBox } from "@/components/products/BuyBox";
-import { CatalogCard } from "@/components/products/CatalogCard";
+import { ProductTable } from "@/components/products/ProductTable";
 
 export const dynamicParams = true;
 
@@ -153,11 +153,7 @@ export default async function ProductoPage({
             <h2 className="mb-6 font-display text-xl font-bold text-ink">
               También en {p.section.toLowerCase()}
             </h2>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-              {related.map((r) => (
-                <CatalogCard key={r.slug} p={r} />
-              ))}
-            </div>
+            <ProductTable products={related} />
           </div>
         </section>
       )}

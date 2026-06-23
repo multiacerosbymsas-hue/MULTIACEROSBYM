@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import {
@@ -8,7 +7,7 @@ import {
   productsByFamily,
 } from "@/lib/data/catalog";
 import { categories } from "@/lib/data/categories";
-import { ProductBrowser } from "@/components/products/ProductBrowser";
+import { SectionCatalog } from "@/components/products/SectionCatalog";
 
 export function generateStaticParams() {
   return catalogFamilies.map((f) => ({ slug: f.slug }));
@@ -43,17 +42,9 @@ export default async function CategoriaPage({
 
   return (
     <>
-      <section className="relative overflow-hidden border-b border-line bg-ink text-white">
-        <Image
-          src={fam.image}
-          alt={fam.name}
-          fill
-          sizes="100vw"
-          className="object-cover opacity-25"
-          priority
-        />
-        <div className="container-x relative py-14 lg:py-20">
-          <nav className="text-sm text-white/60">
+      <section className="relative overflow-hidden border-b border-line bg-blueprint">
+        <div className="container-x relative py-12 lg:py-16">
+          <nav className="font-mono text-xs text-muted">
             <Link href="/" className="hover:text-brand">
               Inicio
             </Link>{" "}
@@ -61,20 +52,24 @@ export default async function CategoriaPage({
             <Link href="/catalogo" className="hover:text-brand">
               Catálogo
             </Link>{" "}
-            / <span className="text-white">{fam.name}</span>
+            / <span className="text-ink">{fam.name}</span>
           </nav>
-          <h1 className="mt-3 max-w-2xl font-display text-3xl font-bold tracking-tight sm:text-4xl">
-            {fam.name}
-          </h1>
-          {info && <p className="mt-2 max-w-xl text-white/70">{info.blurb}</p>}
-          <p className="mt-4 inline-flex rounded-full bg-brand px-3 py-1 text-sm font-semibold">
-            {fam.count} referencias
-          </p>
+          <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <h1 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+                {fam.name}
+              </h1>
+              {info && <p className="mt-2 max-w-xl text-muted">{info.blurb}</p>}
+            </div>
+            <span className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-3.5 py-1.5 font-mono text-xs font-semibold text-ink">
+              <span className="text-brand">◆</span> {fam.count} referencias
+            </span>
+          </div>
         </div>
       </section>
 
       <section className="container-x py-12">
-        <ProductBrowser products={products} />
+        <SectionCatalog products={products} />
       </section>
     </>
   );
