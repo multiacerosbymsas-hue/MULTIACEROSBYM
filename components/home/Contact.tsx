@@ -75,6 +75,8 @@ export function Contact() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Tu nombre"
+                  aria-label="Tu nombre"
+                  autoComplete="name"
                   required
                   className="w-full rounded-xl border border-white/10 bg-ink-soft px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-brand focus:outline-none"
                 />
@@ -82,6 +84,7 @@ export function Contact() {
                   value={msg}
                   onChange={(e) => setMsg(e.target.value)}
                   placeholder="¿Qué material necesitas?"
+                  aria-label="¿Qué material necesitas?"
                   rows={3}
                   required
                   className="w-full rounded-xl border border-white/10 bg-ink-soft px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-brand focus:outline-none"

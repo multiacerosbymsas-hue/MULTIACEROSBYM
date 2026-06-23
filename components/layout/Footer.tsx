@@ -11,6 +11,9 @@ const navLinks = [
   { href: "/#contacto", label: "Contacto" },
 ];
 
+const footerLink =
+  "block text-sm text-white/60 transition-colors hover:text-white";
+
 const catLinks = [
   "Tubería y perfilería",
   "Láminas y aceros",
@@ -58,7 +61,7 @@ export function Footer() {
 
         <FooterCol title="Navegación">
           {navLinks.map((l) => (
-            <Link key={l.href} href={l.href} className="footer-link">
+            <Link key={l.href} href={l.href} className={footerLink}>
               {l.label}
             </Link>
           ))}
@@ -66,7 +69,7 @@ export function Footer() {
 
         <FooterCol title="Líneas de producto">
           {catLinks.map((c) => (
-            <Link key={c} href="/catalogo" className="footer-link">
+            <Link key={c} href="/catalogo" className={footerLink}>
               {c}
             </Link>
           ))}
@@ -103,11 +106,6 @@ export function Footer() {
           <p>NIT {company.nit}</p>
         </div>
       </div>
-
-      <style>{`
-        .footer-link { display:block; font-size:0.875rem; color:rgba(255,255,255,0.6); transition:color .2s; }
-        .footer-link:hover { color:#fff; }
-      `}</style>
     </footer>
   );
 }

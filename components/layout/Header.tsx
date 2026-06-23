@@ -34,6 +34,15 @@ export function Header() {
     document.body.style.overflow = open ? "hidden" : "";
   }, [open]);
 
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
   return (
     <header className="sticky top-0 z-50">
       {/* Barra superior */}
@@ -132,6 +141,7 @@ export function Header() {
       <div
         className={`fixed inset-0 z-50 lg:hidden ${open ? "" : "pointer-events-none"}`}
         aria-hidden={!open}
+        inert={!open}
       >
         <div
           className={`absolute inset-0 bg-ink/50 transition-opacity ${
@@ -140,6 +150,9 @@ export function Header() {
           onClick={() => setOpen(false)}
         />
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menú de navegación"
           className={`absolute right-0 top-0 flex h-full w-[80%] max-w-xs flex-col bg-white shadow-xl transition-transform duration-300 ${
             open ? "translate-x-0" : "translate-x-full"
           }`}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Image from "next/image";
 import { X, Plus, Minus, Trash2, ShoppingCart } from "lucide-react";
 import { useCart, useCartTotal } from "@/lib/store/cart";
@@ -11,6 +12,19 @@ export function CartDrawer() {
   const { items, isOpen, close, remove, setQty } = useCart();
   const total = useCartTotal();
   const mounted = useMounted();
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+    };
+    window.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [isOpen, close]);
 
   const checkoutHref = whatsappLink(
     `Hola ${company.brand} 👋, quiero hacer el siguiente pedido:\n\n` +
@@ -24,6 +38,7 @@ export function CartDrawer() {
     <div
       className={`fixed inset-0 z-[60] ${isOpen ? "" : "pointer-events-none"}`}
       aria-hidden={!isOpen}
+      inert={!isOpen}
     >
       <div
         className={`absolute inset-0 bg-ink/50 transition-opacity ${
@@ -32,12 +47,15 @@ export function CartDrawer() {
         onClick={close}
       />
       <aside
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="cart-title"
         className={`absolute right-0 top-0 flex h-full w-full max-w-md flex-col bg-white shadow-2xl transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <header className="flex items-center justify-between border-b border-line px-5 py-4">
-          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-ink">
+          <h2 id="cart-title" className="flex items-center gap-2 font-display text-lg font-bold text-ink">
             <ShoppingCart size={20} className="text-brand" /> Tu cotización
           </h2>
           <button

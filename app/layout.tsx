@@ -48,6 +48,20 @@ export const metadata: Metadata = {
       "Acero y materiales para construcción y ornamentación en Bucaramanga. Calidad certificada, asesoría profesional y despacho ágil.",
     type: "website",
     locale: "es_CO",
+    siteName: company.brand,
+    images: [
+      {
+        url: "/images/hero-acero.jpg",
+        alt: `${company.brand} — acero y materiales de construcción en Bucaramanga`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${company.legalName} — ${company.slogan}`,
+    description:
+      "Acero y materiales para construcción y ornamentación en Bucaramanga.",
+    images: ["/images/hero-acero.jpg"],
   },
 };
 

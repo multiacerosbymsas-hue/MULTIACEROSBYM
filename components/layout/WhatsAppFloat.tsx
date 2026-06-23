@@ -20,7 +20,7 @@ export function WhatsAppFloat() {
       <span className="max-w-0 overflow-hidden whitespace-nowrap text-sm font-semibold transition-all duration-300 group-hover:max-w-[140px]">
         Escríbenos
       </span>
-      <span className="absolute right-3.5 top-3.5 -z-10 h-7 w-7 animate-ping rounded-full bg-[#25D366] opacity-60" />
+      <span className="absolute right-3.5 top-3.5 -z-10 h-7 w-7 animate-ping rounded-full bg-[#25D366] opacity-60 motion-reduce:hidden" />
     </a>
   );
 }

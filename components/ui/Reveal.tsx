@@ -1,6 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode, type CSSProperties } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type ReactNode,
+  type CSSProperties,
+} from "react";
 
 export function Reveal({
   children,
@@ -43,8 +50,15 @@ export function Reveal({
   );
 }
 
+const subscribeMounted = () => () => {};
+const getMountedSnapshot = () => true;
+const getMountedServerSnapshot = () => false;
+
+/** `true` solo después de montar en el cliente (evita desajustes de hidratación). */
 export function useMounted() {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  return mounted;
+  return useSyncExternalStore(
+    subscribeMounted,
+    getMountedSnapshot,
+    getMountedServerSnapshot
+  );
 }
