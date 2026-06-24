@@ -2,19 +2,26 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { ArrowUpRight } from "lucide-react";
-import { allProducts, catalogFamilies, catalogTotals } from "@/lib/data/catalog";
 import { categories } from "@/lib/data/categories";
+import { getCatalog } from "@/lib/data/catalog.server";
 import { CatalogSearch } from "@/components/products/CatalogSearch";
 
-export const metadata: Metadata = {
-  title: "Catálogo",
-  description: `Explora ${catalogTotals.products}+ referencias en acero, cubiertas, obra gris y ferretería. Elige una familia o busca por nombre o código.`,
-};
+export const revalidate = 3600;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { totals } = await getCatalog();
+  return {
+    title: "Catálogo",
+    description: `Explora ${totals.products}+ referencias en acero, cubiertas, obra gris y ferretería. Elige una familia o busca por nombre o código.`,
+  };
+}
 
 const blurbOf = (slug: string) =>
   categories.find((c) => c.slug === slug)?.blurb ?? "";
 
-export default function CatalogoPage() {
+export default async function CatalogoPage() {
+  const { families, totals, products } = await getCatalog();
+
   return (
     <>
       {/* Encabezado */}
@@ -30,8 +37,8 @@ export default function CatalogoPage() {
             Catálogo de productos
           </h1>
           <p className="mt-2 max-w-xl text-muted">
-            {catalogTotals.products.toLocaleString("es-CO")} referencias en{" "}
-            {catalogTotals.sections} secciones. Elige una familia para ver sus
+            {totals.products.toLocaleString("es-CO")} referencias en{" "}
+            {totals.sections} secciones. Elige una familia para ver sus
             productos, o busca por nombre o código.
           </p>
         </div>
@@ -43,7 +50,7 @@ export default function CatalogoPage() {
           Explora por familia
         </h2>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {catalogFamilies.map((f) => (
+          {families.map((f) => (
             <Link
               key={f.slug}
               href={`/categoria/${f.slug}`}
@@ -83,7 +90,7 @@ export default function CatalogoPage() {
         <h2 className="mb-5 font-display text-xl font-bold text-ink">
           Buscar en todo el catálogo
         </h2>
-        <CatalogSearch products={allProducts} />
+        <CatalogSearch products={products} />
       </section>
     </>
   );

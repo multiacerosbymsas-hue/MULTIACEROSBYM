@@ -8,6 +8,8 @@ import { Suppliers } from "@/components/home/Suppliers";
 import { Testimonials } from "@/components/home/Testimonials";
 import { Contact } from "@/components/home/Contact";
 
+export const revalidate = 3600;
+
 export default function Home() {
   return (
     <>

@@ -2,16 +2,15 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Layers } from "lucide-react";
-import {
-  catalogFamilies,
-  getFamily,
-  referencesByFamily,
-} from "@/lib/data/catalog";
+import { getFamily, familySlugs } from "@/lib/data/catalog";
+import { referencesByFamily } from "@/lib/data/catalog.server";
 import { categories } from "@/lib/data/categories";
 import { ReferenceCard } from "@/components/products/ReferenceCard";
 
+export const revalidate = 3600;
+
 export function generateStaticParams() {
-  return catalogFamilies.map((f) => ({ slug: f.slug }));
+  return familySlugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -24,7 +23,7 @@ export async function generateMetadata({
   return {
     title: fam ? fam.name : "Categoría",
     description: fam
-      ? `${fam.count} referencias de ${fam.name.toLowerCase()} en MultiAceros B&M.`
+      ? `${fam.name} en MultiAceros B&M: medidas, calibres y precios.`
       : undefined,
   };
 }
@@ -38,7 +37,8 @@ export default async function CategoriaPage({
   const fam = getFamily(slug);
   if (!fam) notFound();
 
-  const refs = referencesByFamily(slug);
+  const refs = await referencesByFamily(slug);
+  const count = refs.reduce((n, r) => n + r.count, 0);
   const info = categories.find((c) => c.slug === slug);
 
   return (
@@ -63,7 +63,8 @@ export default async function CategoriaPage({
               {info && <p className="mt-2 max-w-xl text-muted">{info.blurb}</p>}
             </div>
             <span className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-3.5 py-1.5 font-mono text-xs font-semibold text-ink">
-              <span className="text-brand">◆</span> {fam.count} referencias
+              <span className="text-brand">◆</span>{" "}
+              {count.toLocaleString("es-CO")} referencias
             </span>
           </div>
         </div>

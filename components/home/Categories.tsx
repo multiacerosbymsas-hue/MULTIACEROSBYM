@@ -2,11 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { categories } from "@/lib/data/categories";
-import { getFamily } from "@/lib/data/catalog";
+import { getCatalog } from "@/lib/data/catalog.server";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 
-export function Categories() {
+export async function Categories() {
+  const { families } = await getCatalog();
+  const countOf = (slug: string) =>
+    families.find((f) => f.slug === slug)?.count ?? 0;
+
   return (
     <section id="categorias" className="py-20 lg:py-24">
       <div className="container-x">
@@ -41,7 +45,7 @@ export function Categories() {
                       {cat.name}
                     </h3>
                     <p className="text-xs text-white/80">
-                      {getFamily(cat.slug)?.count} referencias
+                      {countOf(cat.slug)} referencias
                     </p>
                   </div>
                   <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-ink opacity-0 transition-all duration-300 group-hover:opacity-100">

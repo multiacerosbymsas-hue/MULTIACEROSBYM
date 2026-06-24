@@ -1,4 +1,9 @@
-import catalogData from "./catalog.json";
+/**
+ * Helpers PUROS del catálogo (sin acceso a datos): tipos, metadatos de
+ * familia y agrupación de referencias. Importable desde cliente y servidor.
+ * La carga de datos (Supabase) está en `catalog.server.ts`.
+ */
+import { categories } from "./categories";
 
 export type CatalogProduct = {
   code: string;
@@ -17,10 +22,7 @@ export type CatalogFamily = {
   count: number;
 };
 
-export type CatalogSection = { name: string; family: string; count: number };
-export type CatalogPhrase = { text: string; section: string | null };
-
-/** Una variante = una fila del Excel (un calibre / medida con su precio). */
+/** Una variante = una fila (un calibre / medida con su precio). */
 export type Variant = {
   code: string;
   name: string;
@@ -42,53 +44,22 @@ export type Reference = {
   variants: Variant[];
 };
 
-type Data = {
-  generatedAt: string;
-  source: string;
-  totals: { products: number; withPrice: number; sections: number };
-  families: CatalogFamily[];
-  sections: CatalogSection[];
-  products: CatalogProduct[];
-  phrases?: CatalogPhrase[];
-};
-
-const data = catalogData as Data;
-
-export const catalogTotals = data.totals;
-export const catalogFamilies = data.families;
-export const allProducts = data.products;
-/** Frases del Excel conservadas en los datos (no se muestran en el sitio). */
-export const catalogPhrases = data.phrases ?? [];
-
-export const getFamily = (slug: string) =>
-  data.families.find((f) => f.slug === slug);
+// ---------------- Familias (metadatos estáticos) ----------------
+const FAMILY_BY_SLUG = new Map(categories.map((c) => [c.slug, c]));
+export const familySlugs = categories.map((c) => c.slug);
 
 export const familyImage = (slug: string) =>
-  getFamily(slug)?.image ?? "/images/logo-full.jpg";
+  FAMILY_BY_SLUG.get(slug)?.image ?? "/images/logo-full.jpg";
 
-export const familyName = (slug: string) => getFamily(slug)?.name ?? slug;
+export const familyName = (slug: string) =>
+  FAMILY_BY_SLUG.get(slug)?.name ?? slug;
 
-export const productsByFamily = (slug: string) =>
-  data.products.filter((p) => p.family === slug);
+export const getFamily = (slug: string) => {
+  const c = FAMILY_BY_SLUG.get(slug);
+  return c ? { slug: c.slug, name: c.name, image: c.image } : undefined;
+};
 
-export const sectionsByFamily = (slug: string) =>
-  data.sections
-    .filter((s) => s.family === slug)
-    .sort((a, b) => b.count - a.count);
-
-export const getProduct = (slug: string) =>
-  data.products.find((p) => p.slug === slug);
-
-export const relatedProducts = (p: CatalogProduct, n = 4) =>
-  data.products
-    .filter((x) => x.section === p.section && x.slug !== p.slug)
-    .slice(0, n);
-
-/* ===================================================================
-   Referencias: agrupan cada sección en UN ítem con variantes.
-   Ej.: "Varilla Corrugada" -> 11 calibres seleccionables con su precio.
-   =================================================================== */
-
+// ---------------- Agrupación en referencias ----------------
 const CONNECTORS = new Set([
   "DE", "Y", "LA", "EL", "DEL", "PARA", "CON", "POR", "EN", "A",
 ]);
@@ -115,17 +86,17 @@ export function tidyName(s: string): string {
     .map((w, i) => {
       const u = w.toUpperCase();
       if (i > 0 && CONNECTORS.has(u)) return w.toLowerCase();
-      // Conserva acrónimos cortos (PVC, IPE, CR…) y tokens con dígitos (C18, 1/2).
       if ((w.length <= 4 && w === u && /[A-Z]/.test(w)) || /\d/.test(w)) return w;
       return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
     })
     .join(" ");
 }
 
-function buildReferences(): Reference[] {
+/** Agrupa productos por sección en referencias (1 ítem con variantes). */
+export function buildReferences(products: CatalogProduct[]): Reference[] {
   const order: string[] = [];
   const groups = new Map<string, CatalogProduct[]>();
-  for (const p of data.products) {
+  for (const p of products) {
     const g = groups.get(p.section);
     if (g) {
       g.push(p);
@@ -165,11 +136,3 @@ function buildReferences(): Reference[] {
     };
   });
 }
-
-export const references: Reference[] = buildReferences();
-
-export const referencesByFamily = (family: string) =>
-  references.filter((r) => r.family === family);
-
-export const getReference = (slug: string) =>
-  references.find((r) => r.slug === slug);

@@ -3,19 +3,21 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Layers, ShieldCheck, Truck, Package } from "lucide-react";
+import { getFamily } from "@/lib/data/catalog";
 import {
-  references,
+  getCatalog,
   getReference,
-  getFamily,
   referencesByFamily,
-} from "@/lib/data/catalog";
+} from "@/lib/data/catalog.server";
 import { formatCOP } from "@/lib/utils/format";
 import { VariantSelector } from "@/components/products/VariantSelector";
 import { ReferenceCard } from "@/components/products/ReferenceCard";
 
 export const dynamicParams = true;
+export const revalidate = 3600;
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const { references } = await getCatalog();
   return references.map((r) => ({ slug: r.slug }));
 }
 
@@ -25,7 +27,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const r = getReference(slug);
+  const r = await getReference(slug);
   return {
     title: r ? r.name : "Referencia",
     description: r
@@ -40,11 +42,11 @@ export default async function ReferenciaPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const r = getReference(slug);
+  const r = await getReference(slug);
   if (!r) notFound();
 
   const fam = getFamily(r.family);
-  const related = referencesByFamily(r.family)
+  const related = (await referencesByFamily(r.family))
     .filter((x) => x.slug !== r.slug)
     .slice(0, 4);
 
@@ -91,7 +93,8 @@ export default async function ReferenciaPage({
             </h1>
             <p className="mt-2 inline-flex items-center gap-1.5 text-sm text-muted">
               <Layers size={15} className="text-brand" />
-              {r.count} {r.count === 1 ? "medida disponible" : "medidas / calibres disponibles"}
+              {r.count}{" "}
+              {r.count === 1 ? "medida disponible" : "medidas / calibres disponibles"}
               {r.priceMin != null && (
                 <>
                   {" · "}desde{" "}
@@ -124,7 +127,6 @@ export default async function ReferenciaPage({
         </div>
       </section>
 
-      {/* Otras referencias de la familia */}
       {related.length > 0 && (
         <section className="bg-paper py-14">
           <div className="container-x">

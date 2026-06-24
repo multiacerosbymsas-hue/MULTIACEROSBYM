@@ -3,22 +3,22 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Package, Weight, Tag, ShieldCheck, Truck } from "lucide-react";
+import { getFamily, familyImage } from "@/lib/data/catalog";
 import {
-  allProducts,
-  getProduct,
-  getFamily,
-  familyImage,
-  relatedProducts,
-} from "@/lib/data/catalog";
+  getProductBySlug,
+  relatedBySection,
+  someProductSlugs,
+} from "@/lib/data/catalog.server";
 import { formatCOP } from "@/lib/utils/format";
 import { BuyBox } from "@/components/products/BuyBox";
 import { ProductTable } from "@/components/products/ProductTable";
 
 export const dynamicParams = true;
+export const revalidate = 3600;
 
-// Pre-renderizamos una muestra; el resto se genera bajo demanda (y se cachea).
-export function generateStaticParams() {
-  return allProducts.slice(0, 24).map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  const slugs = await someProductSlugs(24);
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -27,7 +27,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const p = getProduct(slug);
+  const p = await getProductBySlug(slug);
   return {
     title: p ? p.name : "Producto",
     description: p
@@ -42,13 +42,13 @@ export default async function ProductoPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const p = getProduct(slug);
+  const p = await getProductBySlug(slug);
   if (!p) notFound();
 
   const fam = getFamily(p.family);
   const img = familyImage(p.family);
   const unit = p.weightKg ? `${p.weightKg} kg` : "unidad";
-  const related = relatedProducts(p);
+  const related = await relatedBySection(p.section, p.slug, 4);
 
   return (
     <>
@@ -68,7 +68,6 @@ export default async function ProductoPage({
         </nav>
 
         <div className="grid gap-8 lg:grid-cols-2">
-          {/* Imagen */}
           <div className="relative aspect-square overflow-hidden rounded-[var(--radius-card)] border border-line bg-paper">
             <Image
               src={img}
@@ -83,7 +82,6 @@ export default async function ProductoPage({
             </span>
           </div>
 
-          {/* Información */}
           <div className="flex flex-col">
             <p className="text-xs font-semibold uppercase tracking-wide text-brand">
               {p.section}
@@ -146,7 +144,6 @@ export default async function ProductoPage({
         </div>
       </section>
 
-      {/* Relacionados */}
       {related.length > 0 && (
         <section className="bg-paper py-14">
           <div className="container-x">
