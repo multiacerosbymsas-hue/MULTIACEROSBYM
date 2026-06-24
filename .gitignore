@@ -40,6 +40,9 @@ yarn-error.log*
 # datos sensibles (tokens, llaves) — eliminar manualmente, NUNCA subir
 /ret/
 
+# config local de MCP (apunta al proyecto Supabase del cliente)
+.mcp.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
