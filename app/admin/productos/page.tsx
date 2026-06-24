@@ -1,27 +1,43 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { Search, Pencil } from "lucide-react";
+import { Search, Pencil, ChevronLeft, ChevronRight } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { formatCOP } from "@/lib/utils/format";
 
 export const metadata: Metadata = { title: "Panel · Productos" };
 
+const PAGE_SIZE = 50;
+
 export default async function AdminProductos({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; ok?: string }>;
+  searchParams: Promise<{ q?: string; page?: string; ok?: string }>;
 }) {
-  const { q, ok } = await searchParams;
+  const { q, page: pageRaw, ok } = await searchParams;
   const term = (q ?? "").replace(/[%,()*]/g, "").trim();
+  const page = Math.max(1, Number(pageRaw) || 1);
+  const from = (page - 1) * PAGE_SIZE;
 
   const supabase = await createClient();
   let query = supabase
     .from("products")
-    .select("code, name, slug, price, section, active")
+    .select("code, name, slug, price, section, active", { count: "exact" })
     .order("sort", { ascending: true })
-    .limit(60);
+    .range(from, from + PAGE_SIZE - 1);
   if (term) query = query.or(`name.ilike.%${term}%,code.ilike.%${term}%`);
-  const { data: products } = await query;
+  const { data: products, count } = await query;
+
+  const total = count ?? 0;
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const shownFrom = total === 0 ? 0 : from + 1;
+  const shownTo = Math.min(from + PAGE_SIZE, total);
+
+  const pageHref = (pg: number) => {
+    const sp = new URLSearchParams();
+    if (term) sp.set("q", term);
+    sp.set("page", String(pg));
+    return `/admin/productos?${sp.toString()}`;
+  };
 
   return (
     <div>
@@ -47,7 +63,8 @@ export default async function AdminProductos({
       </form>
 
       <p className="mt-4 font-mono text-[11px] uppercase tracking-wider text-muted">
-        {(products?.length ?? 0)} mostrados{term ? ` para "${term}"` : " (primeros 60 — busca para filtrar)"}
+        {total.toLocaleString("es-CO")} {term ? `resultados para "${term}"` : "productos"}
+        {total > 0 && ` · mostrando ${shownFrom}–${shownTo}`}
       </p>
 
       <div className="mt-3 overflow-hidden rounded-xl border border-line bg-white">
@@ -77,6 +94,40 @@ export default async function AdminProductos({
           )}
         </ul>
       </div>
+
+      {totalPages > 1 && (
+        <div className="mt-5 flex items-center justify-between gap-3">
+          {page > 1 ? (
+            <Link
+              href={pageHref(page - 1)}
+              className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-4 py-2 text-sm font-semibold text-ink hover:border-ink"
+            >
+              <ChevronLeft size={15} /> Anterior
+            </Link>
+          ) : (
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-paper px-4 py-2 text-sm font-semibold text-muted">
+              <ChevronLeft size={15} /> Anterior
+            </span>
+          )}
+
+          <span className="font-mono text-xs text-muted">
+            Página {page} de {totalPages}
+          </span>
+
+          {page < totalPages ? (
+            <Link
+              href={pageHref(page + 1)}
+              className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-4 py-2 text-sm font-semibold text-ink hover:border-ink"
+            >
+              Siguiente <ChevronRight size={15} />
+            </Link>
+          ) : (
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-paper px-4 py-2 text-sm font-semibold text-muted">
+              Siguiente <ChevronRight size={15} />
+            </span>
+          )}
+        </div>
+      )}
     </div>
   );
 }
