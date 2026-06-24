@@ -1,84 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowRight,
-  ChevronLeft,
-  ChevronRight,
-  MessageCircle,
-} from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, MessageCircle } from "lucide-react";
 import { company } from "@/lib/data/company";
 import { whatsappLink } from "@/lib/utils/format";
-
-type Slide = {
-  image: string;
-  alt: string;
-  eyebrow: string;
-  title: ReactNode;
-  subtitle: string;
-  primary: { href: string; label: string };
-};
-
-const slides: Slide[] = [
-  {
-    image: "/images/hero-acero.jpg",
-    alt: "Acero estructural en la bodega de MultiAceros B&M",
-    eyebrow: "Ferretería industrial · Bucaramanga",
-    title: (
-      <>
-        Todas las formas del <span className="text-brand">acero</span>
-        <br className="hidden sm:block" /> en un solo lugar
-      </>
-    ),
-    subtitle:
-      "Acero y materiales certificados para construcción, ornamentación e industria, con asesoría según la necesidad de tu proyecto.",
-    primary: { href: "/catalogo", label: "Explorar catálogo" },
-  },
-  {
-    image: "/images/cubiertas-arquitectonicas.jpg",
-    alt: "Cubiertas arquitectónicas en varios perfiles y colores",
-    eyebrow: "Cubiertas y tejas",
-    title: (
-      <>
-        Techos que <span className="text-brand">protegen</span>
-        <br className="hidden sm:block" /> y lucen bien
-      </>
-    ),
-    subtitle:
-      "Teja de zinc, traslúcida, termoacústica y arquitectónica. Perfiles y colores para todo tipo de obra.",
-    primary: { href: "/categoria/cubiertas-tejas", label: "Ver cubiertas" },
-  },
-  {
-    image: "/images/tuberia-perfiles.jpg",
-    alt: "Tubería estructural y perfilería de acero",
-    eyebrow: "Tubería y perfilería",
-    title: (
-      <>
-        Estructura <span className="text-brand">sólida</span>
-        <br className="hidden sm:block" /> para tu proyecto
-      </>
-    ),
-    subtitle:
-      "Tubería de cerramiento, estructural y mueble; negra y galvanizada, en todos los calibres y medidas.",
-    primary: { href: "/categoria/tuberia-perfileria", label: "Ver tubería" },
-  },
-  {
-    image: "/images/kit-herramientas.jpg",
-    alt: "Herramienta eléctrica y manual de ferretería",
-    eyebrow: "Herramientas y ferretería",
-    title: (
-      <>
-        Todo para <span className="text-brand">la obra</span>
-        <br className="hidden sm:block" /> y el taller
-      </>
-    ),
-    subtitle:
-      "Herramienta eléctrica y manual, discos, brocas, abrasivos, cerrajería y seguridad industrial.",
-    primary: { href: "/categoria/herramientas-ferreteria", label: "Ver herramientas" },
-  },
-];
+import type { HeroSlide } from "@/lib/data/content";
 
 const stats = [
   { num: `${company.yearsInMarket}`, suffix: "", label: "años" },
@@ -89,7 +17,20 @@ const stats = [
 
 const AUTOPLAY_MS = 5500;
 
-export function HeroCarousel() {
+/** Resalta en naranja las palabras envueltas en *asteriscos*. */
+function renderTitle(title: string) {
+  return title.split(/(\*[^*]+\*)/g).map((part, i) =>
+    part.startsWith("*") && part.endsWith("*") ? (
+      <span key={i} className="text-brand">
+        {part.slice(1, -1)}
+      </span>
+    ) : (
+      <span key={i}>{part}</span>
+    )
+  );
+}
+
+export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const count = slides.length;
@@ -98,15 +39,13 @@ export function HeroCarousel() {
   const next = useCallback(() => setIndex((i) => (i + 1) % count), [count]);
   const prev = useCallback(() => setIndex((i) => (i - 1 + count) % count), [count]);
 
-  // Autoplay (respeta prefers-reduced-motion y se pausa al interactuar).
   useEffect(() => {
-    if (paused) return;
+    if (paused || count <= 1) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const id = window.setInterval(() => setIndex((i) => (i + 1) % count), AUTOPLAY_MS);
     return () => window.clearInterval(id);
   }, [paused, count]);
 
-  // Deslizar con el dedo (táctil).
   const touchX = useRef<number | null>(null);
   const onTouchStart = (e: React.TouchEvent) => {
     touchX.current = e.touches[0].clientX;
@@ -147,7 +86,7 @@ export function HeroCarousel() {
               >
                 <Image
                   src={s.image}
-                  alt={s.alt}
+                  alt={s.eyebrow}
                   fill
                   priority={i === 0}
                   sizes="100vw"
@@ -162,17 +101,17 @@ export function HeroCarousel() {
                       <span className="text-brand">◆</span> {s.eyebrow}
                     </p>
                     <h1 className="mt-4 font-display text-3xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
-                      {s.title}
+                      {renderTitle(s.title)}
                     </h1>
                     <p className="mt-5 max-w-lg leading-relaxed text-white/80 sm:text-lg">
                       {s.subtitle}
                     </p>
                     <div className="mt-7 flex flex-wrap gap-3">
                       <Link
-                        href={s.primary.href}
+                        href={s.ctaHref}
                         className="group inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand/25 transition-all hover:bg-brand-dark"
                       >
-                        {s.primary.label}
+                        {s.ctaLabel}
                         <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
                       </Link>
                       <a
@@ -191,36 +130,38 @@ export function HeroCarousel() {
           })}
         </div>
 
-        {/* Flechas */}
-        <button
-          onClick={prev}
-          aria-label="Diapositiva anterior"
-          className="absolute left-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm transition-colors hover:bg-white/30 sm:left-5"
-        >
-          <ChevronLeft size={24} />
-        </button>
-        <button
-          onClick={next}
-          aria-label="Diapositiva siguiente"
-          className="absolute right-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm transition-colors hover:bg-white/30 sm:right-5"
-        >
-          <ChevronRight size={24} />
-        </button>
-
-        {/* Puntos */}
-        <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2.5">
-          {slides.map((_, i) => (
+        {count > 1 && (
+          <>
             <button
-              key={i}
-              onClick={() => go(i)}
-              aria-label={`Ir a la diapositiva ${i + 1}`}
-              aria-current={i === index}
-              className={`h-2.5 rounded-full transition-all ${
-                i === index ? "w-7 bg-brand" : "w-2.5 bg-white/50 hover:bg-white/80"
-              }`}
-            />
-          ))}
-        </div>
+              onClick={prev}
+              aria-label="Diapositiva anterior"
+              className="absolute left-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm transition-colors hover:bg-white/30 sm:left-5"
+            >
+              <ChevronLeft size={24} />
+            </button>
+            <button
+              onClick={next}
+              aria-label="Diapositiva siguiente"
+              className="absolute right-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm transition-colors hover:bg-white/30 sm:right-5"
+            >
+              <ChevronRight size={24} />
+            </button>
+
+            <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2.5">
+              {slides.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => go(i)}
+                  aria-label={`Ir a la diapositiva ${i + 1}`}
+                  aria-current={i === index}
+                  className={`h-2.5 rounded-full transition-all ${
+                    i === index ? "w-7 bg-brand" : "w-2.5 bg-white/50 hover:bg-white/80"
+                  }`}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       {/* Franja de estadísticas */}

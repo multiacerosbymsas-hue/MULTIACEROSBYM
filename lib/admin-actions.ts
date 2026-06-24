@@ -82,3 +82,30 @@ export async function setOrderStatus(formData: FormData) {
   revalidatePath("/admin/pedidos");
   redirect("/admin/pedidos?ok=1");
 }
+
+export async function updateHeroSlides(formData: FormData) {
+  const supabase = await assertAdmin();
+  const count = Number(formData.get("count") ?? 0);
+
+  const slides = [];
+  for (let i = 0; i < count; i++) {
+    const title = String(formData.get(`s${i}_title`) ?? "").trim();
+    if (!title) continue; // saltar diapositivas vacías (permite borrar)
+    slides.push({
+      image: String(formData.get(`s${i}_image`) ?? ""),
+      eyebrow: String(formData.get(`s${i}_eyebrow`) ?? "").trim(),
+      title,
+      subtitle: String(formData.get(`s${i}_subtitle`) ?? "").trim(),
+      ctaLabel: String(formData.get(`s${i}_ctaLabel`) ?? "").trim(),
+      ctaHref: String(formData.get(`s${i}_ctaHref`) ?? "").trim(),
+    });
+  }
+
+  const { error } = await supabase
+    .from("site_content")
+    .upsert({ key: "hero_slides", value: slides }, { onConflict: "key" });
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/");
+  redirect("/admin/contenido?ok=1");
+}

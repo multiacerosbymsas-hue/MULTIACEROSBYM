@@ -4,6 +4,7 @@ import {
   Package,
   Users,
   ClipboardList,
+  Images,
   ExternalLink,
 } from "lucide-react";
 import { requireAdmin } from "@/lib/admin-guard";
@@ -13,6 +14,7 @@ export const dynamic = "force-dynamic";
 const links = [
   { href: "/admin", label: "Resumen", icon: LayoutDashboard },
   { href: "/admin/productos", label: "Productos", icon: Package },
+  { href: "/admin/contenido", label: "Contenido", icon: Images },
   { href: "/admin/usuarios", label: "Usuarios", icon: Users },
   { href: "/admin/pedidos", label: "Pedidos", icon: ClipboardList },
 ];
