@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { Layers } from "lucide-react";
 import {
   catalogFamilies,
   getFamily,
-  productsByFamily,
+  referencesByFamily,
 } from "@/lib/data/catalog";
 import { categories } from "@/lib/data/categories";
-import { CatalogBrowser } from "@/components/products/CatalogBrowser";
+import { ReferenceCard } from "@/components/products/ReferenceCard";
 
 export function generateStaticParams() {
   return catalogFamilies.map((f) => ({ slug: f.slug }));
@@ -37,7 +38,7 @@ export default async function CategoriaPage({
   const fam = getFamily(slug);
   if (!fam) notFound();
 
-  const products = productsByFamily(slug);
+  const refs = referencesByFamily(slug);
   const info = categories.find((c) => c.slug === slug);
 
   return (
@@ -69,7 +70,22 @@ export default async function CategoriaPage({
       </section>
 
       <section className="container-x py-12">
-        <CatalogBrowser products={products} lockedFamily={slug} />
+        <p className="mb-6 inline-flex items-center gap-2 text-sm text-muted">
+          <Layers size={16} className="text-brand" />
+          Elige una referencia para ver sus medidas, calibres y precios.
+        </p>
+
+        {refs.length === 0 ? (
+          <div className="rounded-xl border border-dashed border-line bg-paper py-16 text-center text-muted">
+            Pronto agregaremos referencias de esta familia.
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            {refs.map((r) => (
+              <ReferenceCard key={r.slug} r={r} />
+            ))}
+          </div>
+        )}
       </section>
     </>
   );

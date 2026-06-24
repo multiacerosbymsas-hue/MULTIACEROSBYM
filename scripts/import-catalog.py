@@ -106,6 +106,7 @@ def main():
 
     section = None
     products = []
+    phrases = []
     seen_slugs = {}
 
     for r in range(1, ws.max_row + 1):
@@ -144,7 +145,11 @@ def main():
             up = norm(bs)
             if up in ("CODIGO", "FECHA") or up.startswith("FECHA"):
                 continue
-            if is_religious(bs) or len(bs) > 45:
+            if is_religious(bs):
+                # Se CONSERVAN en los datos (no se muestran en el sitio).
+                phrases.append({"text": bs, "section": section})
+                continue
+            if len(bs) > 45:
                 continue
             section = bs  # nueva sección (las vacías se eliminan luego)
 
@@ -175,13 +180,14 @@ def main():
         "families": families,
         "sections": sections,
         "products": products,
+        "phrases": phrases,
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(data, ensure_ascii=False, indent=0), encoding="utf-8")
 
     # Resumen
     print(f"Productos: {len(products)}  |  con precio: {data['totals']['withPrice']}"
-          f"  |  secciones: {len(sections)}")
+          f"  |  secciones: {len(sections)}  |  frases conservadas: {len(phrases)}")
     print("Por familia:")
     for f in families:
         print(f"  - {f['name']:<32} {f['count']}")

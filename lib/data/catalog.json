@@ -1,5 +1,5 @@
 {
-"generatedAt": "2026-06-22",
+"generatedAt": "2026-06-23",
 "source": "LISTA DE PRECIOS.xlsx",
 "totals": {
 "products": 1651,
@@ -15312,6 +15312,104 @@
 "weightKg": null,
 "section": "BROCAS",
 "family": "herramientas-ferreteria"
+}
+],
+"phrases": [
+{
+"text": "DIOS NOS DA LA VICTORIA",
+"section": "TUBERIA CERRAMIENTO NEGRO"
+},
+{
+"text": "EL SEÑOR ES NUESTRA FORTALEZA",
+"section": "TUBERIA CUADRADA"
+},
+{
+"text": "DIOS ES ESCUDO ALREDEDOR NUESTRO",
+"section": "TUBERIA MUEBLE RECTANGULAR"
+},
+{
+"text": "DIOS ES BUENO TODO EL TIEMPO",
+"section": "TUBERIA MUEBLE REDONDA"
+},
+{
+"text": "Las misericordias de Dios son nuevas cada día",
+"section": "OTRAS TUBERIAS"
+},
+{
+"text": "MORAMOS BAJO LA SOMBRA DEL OMNIPOTENTE",
+"section": "TUBERIA CERRAMIENTO GALVANIZADA"
+},
+{
+"text": "EL SEÑOR ES MI PORCION, POR TANTO EN EL ESPERARE",
+"section": "TUBERIA PVC"
+},
+{
+"text": "Bueno es el Señor; es refugio en el día de la angustia",
+"section": "ACCESORIOS PVC (1)"
+},
+{
+"text": "El Señor es mi Luz y mi Salvación",
+"section": "ACCESORIOS PVC (2)"
+},
+{
+"text": "DEBAJO DE TUS ALAS ESTAMOS SEGUROS",
+"section": "TEJA DE ZINC"
+},
+{
+"text": "LAS SENDAS DE DIOS SON VERDAD Y JUSTICIA",
+"section": "TEJA TRASLUCIDA"
+},
+{
+"text": "ABORRECED LO MALO, SEGUID LO BUENO",
+"section": "CUBIERTAS Y TEJAS ARQUITECTONICAS"
+},
+{
+"text": "TODO LO PUEDO EN CRISTO QUE ME FORTALECE",
+"section": "LAMINA CR"
+},
+{
+"text": "ACERQUEMONOS, PUES, CONFIADAMENTE AL TRONO DE LA",
+"section": "LAMINA ESTAMPADAS"
+},
+{
+"text": "GRACIA PARA ALCANZAR MISERICORDIA Y HALLAR GRACIA        PARA EL OPORTUNO SOCORRO",
+"section": "LAMINA ESTAMPADAS"
+},
+{
+"text": "BENDITO EL HOMBRE QUE CONFIA EN DIOS",
+"section": "LAMINA GALVANIZADA"
+},
+{
+"text": "JESUCRISTO ES EL CAMINO, LA VERDAD Y LA VIDA",
+"section": "ANGULOS"
+},
+{
+"text": "DIOS AMA LA RECTITUD",
+"section": "SOLDADURA"
+},
+{
+"text": "EL SEÑOR ES POTENTE",
+"section": "MALLAS"
+},
+{
+"text": "DIOS CAMBIA NUESTRO LAMENTO EN BAILE",
+"section": "ANTICORROSIVO"
+},
+{
+"text": "DIOS REFUERZA LOS CERROJOS DE NUESTRAS PUERTAS",
+"section": "CERRADURAS # 1"
+},
+{
+"text": "EL SEÑOR QUEBRANTA PUERTAS DE BRONCE Y CERROJOS DE HIERRO",
+"section": "CERRADURAS # 2"
+},
+{
+"text": "LA PALABRA DE DIOS ES VIVA Y EFICAZ",
+"section": "ESCUDOS PARA PUERTAS"
+},
+{
+"text": "Yo iré delante de ti, y enderezaré los lugares torcidos; quebrantaré puertas de bronce, y cerrojos de hierro haré pedazos; y te daré los tesoros escondidos, y los secretos muy guardados, para que sepas que yo soy Jehová, el Dios de Israel, que te pongo nombre",
+"section": "CERROJOS"
 }
 ]
 }
