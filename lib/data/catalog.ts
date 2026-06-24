@@ -64,7 +64,7 @@ const CONNECTORS = new Set([
   "DE", "Y", "LA", "EL", "DEL", "PARA", "CON", "POR", "EN", "A",
 ]);
 
-function slugifySection(s: string): string {
+export function slugify(s: string): string {
   const out = s
     .normalize("NFD")
     .replace(/[̀-ͯ]/g, "")
@@ -109,7 +109,7 @@ export function buildReferences(products: CatalogProduct[]): Reference[] {
   const used = new Set<string>();
   return order.map((section) => {
     const items = groups.get(section)!;
-    let slug = slugifySection(section);
+    let slug = slugify(section);
     while (used.has(slug)) slug += "-x";
     used.add(slug);
 

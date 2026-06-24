@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { Search, Pencil, ChevronLeft, ChevronRight } from "lucide-react";
+import { Search, Pencil, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { formatCOP } from "@/lib/utils/format";
 
@@ -42,12 +42,20 @@ export default async function AdminProductos({
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="font-display text-2xl font-bold text-ink">Productos</h1>
-        {ok && (
-          <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
-            Cambios guardados ✓
-          </span>
-        )}
+        <div className="flex items-center gap-3">
+          <h1 className="font-display text-2xl font-bold text-ink">Productos</h1>
+          {ok && (
+            <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
+              Guardado ✓
+            </span>
+          )}
+        </div>
+        <Link
+          href="/admin/productos/nuevo"
+          className="inline-flex items-center gap-1.5 rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
+        >
+          <Plus size={16} /> Nuevo producto
+        </Link>
       </div>
 
       <form className="mt-4 max-w-md">
