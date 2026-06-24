@@ -3,10 +3,11 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, X, ShoppingCart, Phone, Clock } from "lucide-react";
+import { Menu, X, ShoppingCart, Phone, Clock, User } from "lucide-react";
 import { company } from "@/lib/data/company";
 import { useCart, useCartCount } from "@/lib/store/cart";
 import { useMounted } from "@/components/ui/Reveal";
+import { createClient } from "@/lib/supabase/client";
 
 const nav = [
   { href: "/#inicio", label: "Inicio" },
@@ -22,6 +23,16 @@ export function Header() {
   const openCart = useCart((s) => s.open);
   const count = useCartCount();
   const mounted = useMounted();
+  const [authed, setAuthed] = useState(false);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => setAuthed(!!data.user));
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) =>
+      setAuthed(!!session?.user)
+    );
+    return () => sub.subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setSolid(window.scrollY > 30);
@@ -120,6 +131,14 @@ export function Header() {
             </button>
 
             <Link
+              href={mounted && authed ? "/cuenta" : "/login"}
+              className="flex h-10 w-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-paper"
+              aria-label={mounted && authed ? "Mi cuenta" : "Iniciar sesión"}
+            >
+              <User size={20} />
+            </Link>
+
+            <Link
               href="/#contacto"
               className="hidden rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-brand-dark sm:inline-flex"
             >
@@ -179,7 +198,14 @@ export function Header() {
               </Link>
             ))}
           </nav>
-          <div className="mt-auto border-t border-line p-5">
+          <div className="mt-auto space-y-2 border-t border-line p-5">
+            <Link
+              href={mounted && authed ? "/cuenta" : "/login"}
+              onClick={() => setOpen(false)}
+              className="flex items-center justify-center gap-2 rounded-full border border-line px-5 py-3 text-sm font-semibold text-ink"
+            >
+              <User size={17} /> {mounted && authed ? "Mi cuenta" : "Iniciar sesión"}
+            </Link>
             <Link
               href="/#contacto"
               onClick={() => setOpen(false)}
