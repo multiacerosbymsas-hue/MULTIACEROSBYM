@@ -22,7 +22,7 @@ const sans = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://multiacerosbym.com"),
+  metadataBase: new URL("https://multiacerosbymsas.co"),
   title: {
     default: `${company.legalName} — ${company.slogan} | Bucaramanga`,
     template: `%s | ${company.legalName}`,
