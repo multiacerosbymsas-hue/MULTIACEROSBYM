@@ -1,5 +1,22 @@
 /** Contenido editable del sitio (carrusel). Tipos puros + valores por defecto. */
 
+/**
+ * Sanea un enlace editable (CTA del carrusel). Solo permite rutas internas
+ * (`/...`) o URLs http(s); cualquier otra cosa (p.ej. `javascript:`) cae a "/".
+ * Evita que un enlace malicioso ejecute código o redirija a un sitio falso.
+ */
+export function safeHref(href: string): string {
+  const h = (href ?? "").trim();
+  if (h.startsWith("/")) return h;
+  try {
+    const u = new URL(h);
+    if (u.protocol === "http:" || u.protocol === "https:") return h;
+  } catch {
+    // no es una URL válida
+  }
+  return "/";
+}
+
 export type HeroSlide = {
   image: string;
   eyebrow: string;

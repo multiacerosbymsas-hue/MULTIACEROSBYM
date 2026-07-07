@@ -6,7 +6,8 @@ import Link from "next/link";
 import { ArrowRight, ChevronLeft, ChevronRight, MessageCircle } from "lucide-react";
 import { company } from "@/lib/data/company";
 import { whatsappLink } from "@/lib/utils/format";
-import type { HeroSlide } from "@/lib/data/content";
+import { safeHref, type HeroSlide } from "@/lib/data/content";
+import { FloatingSuppliers } from "@/components/home/FloatingSuppliers";
 
 const stats = [
   { num: `${company.yearsInMarket}`, suffix: "", label: "años" },
@@ -108,7 +109,7 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
                     </p>
                     <div className="mt-7 flex flex-wrap gap-3">
                       <Link
-                        href={s.ctaHref}
+                        href={safeHref(s.ctaHref)}
                         className="group inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand/25 transition-all hover:bg-brand-dark"
                       >
                         {s.ctaLabel}
@@ -129,6 +130,9 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
             );
           })}
         </div>
+
+        {/* Proveedores anclados al hero (costado izquierdo, se van con el scroll) */}
+        <FloatingSuppliers />
 
         {count > 1 && (
           <>

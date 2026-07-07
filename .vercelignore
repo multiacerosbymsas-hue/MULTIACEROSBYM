@@ -3,6 +3,10 @@
 # Datos sensibles (tokens, llaves) — nunca subir
 ret/
 
+# Material interno (no es parte del sitio)
+TELEFONOS DE ASESORES/
+referencia pasarela/
+
 # Entorno y artefactos locales
 .env*
 .git

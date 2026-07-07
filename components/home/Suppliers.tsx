@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { suppliers } from "@/lib/data/suppliers";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
@@ -20,12 +21,15 @@ export function Suppliers() {
           {suppliers.map((s, i) => (
             <Reveal key={s.name} delay={(i % 4) * 60}>
               <div className="flex h-full items-center gap-3 rounded-[var(--radius-card)] border border-line bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-soft)]">
-                <span
-                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl font-display text-sm font-bold text-white"
-                  style={{ backgroundColor: s.color }}
-                >
-                  {s.mono}
-                </span>
+                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full ring-1 ring-black/5">
+                  <Image
+                    src={s.logo}
+                    alt={`Logo de ${s.name}`}
+                    fill
+                    sizes="56px"
+                    className="object-cover"
+                  />
+                </div>
                 <div className="min-w-0">
                   <p className="truncate font-display text-sm font-bold text-ink">
                     {s.name}

@@ -6,6 +6,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CartDrawer } from "@/components/layout/CartDrawer";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
+import { FloatingSocials } from "@/components/layout/FloatingSocials";
 
 const display = Space_Grotesk({
   subsets: ["latin"],
@@ -76,6 +77,7 @@ export default function RootLayout({
         <Footer />
         <CartDrawer />
         <WhatsAppFloat />
+        <FloatingSocials />
       </body>
     </html>
   );

@@ -24,8 +24,8 @@ export async function signUp(formData: FormData) {
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
 
-  if (password.length < 6) {
-    redirect(`/registro?error=${encodeURIComponent("La contraseña debe tener al menos 6 caracteres.")}`);
+  if (password.length < 8) {
+    redirect(`/registro?error=${encodeURIComponent("La contraseña debe tener al menos 8 caracteres.")}`);
   }
 
   const supabase = await createClient();

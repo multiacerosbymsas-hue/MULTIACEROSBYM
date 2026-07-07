@@ -40,6 +40,10 @@ yarn-error.log*
 # datos sensibles (tokens, llaves) — eliminar manualmente, NUNCA subir
 /ret/
 
+# material interno de la empresa (no es parte del sitio; el repo es público)
+/TELEFONOS DE ASESORES/
+/referencia pasarela/
+
 # config local de MCP (apunta al proyecto Supabase del cliente)
 .mcp.json
 

@@ -2,11 +2,11 @@
 
 import { useEffect } from "react";
 import Image from "next/image";
-import { X, Plus, Minus, Trash2, ShoppingCart } from "lucide-react";
+import Link from "next/link";
+import { X, Plus, Minus, Trash2, ShoppingCart, ArrowRight } from "lucide-react";
 import { useCart, useCartTotal } from "@/lib/store/cart";
 import { useMounted } from "@/components/ui/Reveal";
-import { formatCOP, whatsappLink } from "@/lib/utils/format";
-import { company } from "@/lib/data/company";
+import { formatCOP } from "@/lib/utils/format";
 
 export function CartDrawer() {
   const { items, isOpen, close, remove, setQty } = useCart();
@@ -25,14 +25,6 @@ export function CartDrawer() {
       document.body.style.overflow = "";
     };
   }, [isOpen, close]);
-
-  const checkoutHref = whatsappLink(
-    `Hola ${company.brand} 👋, quiero hacer el siguiente pedido:\n\n` +
-      items
-        .map((i) => `• ${i.qty} x ${i.name} — ${formatCOP(i.price * i.qty)}`)
-        .join("\n") +
-      `\n\nTotal aprox.: ${formatCOP(total)}`
-  );
 
   return (
     <div
@@ -135,16 +127,15 @@ export function CartDrawer() {
                   {formatCOP(total)}
                 </span>
               </div>
-              <a
-                href={checkoutHref}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/checkout"
+                onClick={close}
                 className="flex items-center justify-center gap-2 rounded-full bg-brand px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
               >
-                Finalizar pedido por WhatsApp
-              </a>
+                Finalizar compra <ArrowRight size={18} />
+              </Link>
               <p className="mt-2 text-center text-[11px] text-muted">
-                El pago en línea (PSE, tarjeta, Nequi) se habilitará próximamente.
+                Eliges el método de pago en el siguiente paso.
               </p>
             </footer>
           </>

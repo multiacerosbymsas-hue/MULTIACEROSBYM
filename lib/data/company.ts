@@ -13,8 +13,8 @@ export const company = {
   sectors: ["Ornamentación", "Construcción", "Industrial", "Metalmecánico"],
 
   // Contacto
-  phones: ["317 808 0270", "304 668 8112", "313 731 6512"],
-  whatsapp: "573178080270", // número principal (formato internacional sin +)
+  phones: ["321 971 9719", "317 808 0270", "304 668 8112", "313 731 6512"],
+  whatsapp: "573219719719", // línea principal de cotización: Santiago Bayona Motta (formato internacional sin +)
   email: "multiacerosbymsas@gmail.com",
 
   addresses: [
@@ -30,9 +30,9 @@ export const company = {
   delivery: "Domicilios en el área metropolitana de Bucaramanga · Recogida en punto físico",
 
   socials: {
-    instagram: "#", // TODO: handle real
-    facebook: "#", // TODO: handle real
-    tiktok: "#", // TODO: handle real
+    instagram: "https://www.instagram.com/bymmultiaceros?igsh=YjNqZmJ2enZua2ln",
+    facebook: "https://www.facebook.com/share/1B5XEDbccH/",
+    tiktok: "https://www.tiktok.com/@multiaceros.bm.sa?_r=1&_t=ZS-97XwtuFGKhh",
   },
 
   mission:
@@ -51,3 +51,27 @@ export const company = {
 } as const;
 
 export type Company = typeof company;
+
+/**
+ * Asesores comerciales por WhatsApp.
+ * El principal (cotizaciones) es Santiago Bayona Motta.
+ * Para sumar los otros 2 asesores: agrega { name, role, whatsapp } a este arreglo
+ * y el botón flotante se convierte automáticamente en un selector con su nombre.
+ */
+export type Advisor = {
+  name: string;
+  role: string;
+  /** WhatsApp en formato internacional sin "+" (ej. 573219719719). */
+  whatsapp: string;
+  /** Ruta pública de la foto del asesor; si falta se muestran sus iniciales. */
+  photo?: string;
+};
+
+export const advisors: Advisor[] = [
+  { name: "Santiago Bayona Motta", role: "Cotizaciones · Línea principal", whatsapp: company.whatsapp, photo: "/images/asesores/santiago-bayona.jpg" },
+  { name: "Alfonso Manuel Cabarcas Salas", role: "Asesor comercial", whatsapp: "573178080270", photo: "/images/asesores/alfonso-cabarcas.jpg" },
+  { name: "Javier José Hernández Borja", role: "Asesor comercial", whatsapp: "573137316512", photo: "/images/asesores/javier-hernandez.jpg" },
+  { name: "Luis Antonio Niño Contreras", role: "Asesor comercial", whatsapp: "573142114304", photo: "/images/asesores/antonio-nino.jpg" },
+  { name: "Andertsonn Smollt Hinestroza Ascanio", role: "Asesor comercial", whatsapp: "573028153935", photo: "/images/asesores/anderson-hinestroza.jpg" },
+  { name: "Ana María Peñaloza Silva", role: "Asesora comercial", whatsapp: "573046688112", photo: "/images/asesores/ana-maria-penaloza.jpg" },
+];

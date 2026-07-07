@@ -3,7 +3,9 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { slugify } from "@/lib/data/catalog";
+import { safeHref } from "@/lib/data/content";
 
 /** Verifica que el usuario actual sea admin; devuelve el cliente con su sesión. */
 async function assertAdmin() {
@@ -143,6 +145,32 @@ export async function setOrderStatus(formData: FormData) {
   redirect("/admin/pedidos?ok=1");
 }
 
+/**
+ * Elimina un pedido y sus líneas de forma permanente.
+ * Usa la llave de servicio (omite RLS) tras confirmar que quien llama es admin;
+ * borra primero order_items por si la FK no tiene ON DELETE CASCADE.
+ */
+export async function deleteOrder(formData: FormData) {
+  await assertAdmin();
+  const id = String(formData.get("id"));
+  if (!id) throw new Error("Falta el id del pedido");
+
+  const admin = createAdminClient();
+
+  const { error: itemsErr } = await admin
+    .from("order_items")
+    .delete()
+    .eq("order_id", id);
+  if (itemsErr) throw new Error(itemsErr.message);
+
+  const { error } = await admin.from("orders").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/admin/pedidos");
+  revalidatePath("/admin");
+  redirect("/admin/pedidos?borrado=1");
+}
+
 export async function updateHeroSlides(formData: FormData) {
   const supabase = await assertAdmin();
   const count = Number(formData.get("count") ?? 0);
@@ -157,7 +185,7 @@ export async function updateHeroSlides(formData: FormData) {
       title,
       subtitle: String(formData.get(`s${i}_subtitle`) ?? "").trim(),
       ctaLabel: String(formData.get(`s${i}_ctaLabel`) ?? "").trim(),
-      ctaHref: String(formData.get(`s${i}_ctaHref`) ?? "").trim(),
+      ctaHref: safeHref(String(formData.get(`s${i}_ctaHref`) ?? "").trim()),
     });
   }
 
