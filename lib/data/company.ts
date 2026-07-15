@@ -23,7 +23,7 @@ export const company = {
   ],
 
   hours: [
-    { days: "Lunes a viernes", time: "7:00 a.m. – 5:00 p.m. (jornada continua)" },
+    { days: "Lunes a viernes", time: "7:30 a.m. – 5:00 p.m. (jornada continua)" },
     { days: "Sábados", time: "7:30 a.m. – 12:00 p.m." },
   ],
 

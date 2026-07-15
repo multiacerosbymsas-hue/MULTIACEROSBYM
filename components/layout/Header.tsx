@@ -66,7 +66,7 @@ export function Header() {
           </p>
           <div className="flex items-center gap-5">
             <span className="flex items-center gap-1.5">
-              <Clock size={13} className="text-brand" /> Lun–Vie 7am–5pm · Sáb 7:30am–12m
+              <Clock size={13} className="text-brand" /> Lun–Vie 7:30am–5pm · Sáb 7:30am–12m
             </span>
             <a
               href={`tel:+57${company.phones[0].replace(/\s/g, "")}`}
