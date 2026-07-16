@@ -55,7 +55,7 @@ export function FloatingSocials() {
   if (hidden) return null;
 
   return (
-    <div className="fixed right-3 top-1/2 z-40 flex -translate-y-1/2 flex-col gap-3">
+    <div className="fixed left-3 top-1/2 z-40 flex -translate-y-1/2 flex-col gap-3">
       {socials.map((s) => (
         <a
           key={s.label}
