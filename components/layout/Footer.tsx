@@ -56,6 +56,9 @@ export function Footer() {
             <SocialIcon href={company.socials.tiktok} label="TikTok">
               <TkIcon />
             </SocialIcon>
+            <SocialIcon href={company.socials.youtube} label="YouTube">
+              <YtIcon />
+            </SocialIcon>
           </div>
         </div>
 
@@ -143,6 +146,14 @@ function FbIcon() {
   return (
     <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
       <path d="M14 9h3l.5-3H14V4.5c0-.83.5-1.5 1.5-1.5H17V.2A20 20 0 0 0 14.7 0C12.2 0 10.5 1.5 10.5 4.2V6H8v3h2.5v9H14z" />
+    </svg>
+  );
+}
+
+function YtIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+      <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8zM9.6 15.6V8.4L15.8 12l-6.2 3.6z" />
     </svg>
   );
 }

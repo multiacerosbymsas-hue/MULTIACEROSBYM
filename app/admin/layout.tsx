@@ -5,6 +5,9 @@ import {
   Users,
   ClipboardList,
   Images,
+  Megaphone,
+  FolderOpen,
+  CreditCard,
   ExternalLink,
 } from "lucide-react";
 import { requireAdmin } from "@/lib/admin-guard";
@@ -15,6 +18,9 @@ const links = [
   { href: "/admin", label: "Resumen", icon: LayoutDashboard },
   { href: "/admin/productos", label: "Productos", icon: Package },
   { href: "/admin/contenido", label: "Contenido", icon: Images },
+  { href: "/admin/promocion", label: "Promoción del mes", icon: Megaphone },
+  { href: "/admin/familias", label: "Fotos por familia", icon: FolderOpen },
+  { href: "/admin/pagos", label: "Pasarela de pago", icon: CreditCard },
   { href: "/admin/usuarios", label: "Usuarios", icon: Users },
   { href: "/admin/pedidos", label: "Pedidos", icon: ClipboardList },
 ];

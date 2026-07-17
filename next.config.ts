@@ -26,6 +26,22 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.join(__dirname),
   },
+  images: {
+    // Fotos subidas desde el panel admin (bucket público "site" en Supabase).
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "kiiojgdrwlffpibncbbz.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
+    ],
+  },
+  experimental: {
+    serverActions: {
+      // Las fotos del panel (promoción, familias) llegan como FormData.
+      bodySizeLimit: "8mb",
+    },
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

@@ -16,11 +16,21 @@ import {
 } from "@/lib/data/payments";
 import { PaymentLogos } from "@/components/store/PaymentLogos";
 
-export function CheckoutContent() {
+export function CheckoutContent({
+  paymentsEnabled = true,
+}: {
+  /** false = pasarela suspendida desde /admin/pagos: solo pedido por WhatsApp. */
+  paymentsEnabled?: boolean;
+}) {
   const mounted = useMounted();
   const items = useCart((s) => s.items);
   const clear = useCart((s) => s.clear);
   const total = useCartTotal();
+
+  // Con la pasarela suspendida solo queda "contraentrega" (coordinar por WhatsApp).
+  const methods = paymentsEnabled
+    ? paymentMethods
+    : paymentMethods.filter((m) => m.value === "contraentrega");
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -79,7 +89,9 @@ export function CheckoutContent() {
     if (notes) msg += `\nNota: ${notes}`;
     const wa = whatsappLink(msg);
     const bank =
-      payMethod === "online" && BANK_PAYMENT_URL !== "" ? BANK_PAYMENT_URL : "";
+      paymentsEnabled && payMethod === "online" && BANK_PAYMENT_URL !== ""
+        ? BANK_PAYMENT_URL
+        : "";
     // Con cualquier método mostramos la confirmación; el cliente confirma por WhatsApp
     // (y si es pago en línea, además puede pagar en el portal de Davivienda).
     setDone({ wa, bank, code });
@@ -167,9 +179,11 @@ export function CheckoutContent() {
         <div className="mt-3 h-1 w-16 rounded-full bg-gradient-to-r from-brand-soft to-brand" />
       </header>
 
-      <div className="mb-8">
-        <PaymentLogos />
-      </div>
+      {paymentsEnabled && (
+        <div className="mb-8">
+          <PaymentLogos />
+        </div>
+      )}
 
       <div className="grid gap-8 lg:grid-cols-5">
         {/* Datos + método de pago */}
@@ -217,7 +231,7 @@ export function CheckoutContent() {
           <div>
             <label className={labelCls}>Método de pago *</label>
             <div className="space-y-2">
-              {paymentMethods.map((m) => (
+              {methods.map((m) => (
                 <label
                   key={m.value}
                   className={`flex cursor-pointer items-start gap-3 rounded-xl border px-3.5 py-3 transition ${

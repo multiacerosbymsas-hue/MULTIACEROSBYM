@@ -17,6 +17,31 @@ export function safeHref(href: string): string {
   return "/";
 }
 
+/** Promoción del mes: popup que aparece al entrar al sitio (editable en /admin/promocion). */
+export type PromoContent = {
+  /** Solo se muestra si está activa Y tiene imagen. */
+  enabled: boolean;
+  image: string;
+  eyebrow: string;
+  title: string;
+  text: string;
+  ctaLabel: string;
+  ctaHref: string;
+};
+
+export const DEFAULT_PROMO: PromoContent = {
+  enabled: false,
+  image: "",
+  eyebrow: "Promoción del mes",
+  title: "Cerradura inteligente para tu puerta",
+  text: "Nuestro producto nuevo: chapa inteligente con apertura por huella, clave y app. Pregunta por el precio de lanzamiento.",
+  ctaLabel: "Cotizar ahora",
+  ctaHref: "/#contacto",
+};
+
+/** Imagen personalizada por familia del catálogo (editable en /admin/familias). */
+export type FamilyImages = Record<string, string>;
+
 export type HeroSlide = {
   image: string;
   eyebrow: string;

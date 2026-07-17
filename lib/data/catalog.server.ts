@@ -2,6 +2,7 @@ import "server-only";
 import { cache } from "react";
 import { supabasePublic } from "@/lib/supabase/public";
 import { categories } from "./categories";
+import { getFamilyImages } from "./content.server";
 import {
   buildReferences,
   type CatalogProduct,
@@ -60,10 +61,13 @@ export const getCatalog = cache(async () => {
   const counts = new Map<string, number>();
   for (const p of products) counts.set(p.family, (counts.get(p.family) ?? 0) + 1);
 
+  // Foto por familia: la subida desde /admin/familias tiene prioridad.
+  const familyImages = await getFamilyImages();
+
   const families: CatalogFamily[] = categories.map((c) => ({
     slug: c.slug,
     name: c.name,
-    image: c.image,
+    image: familyImages[c.slug] || c.image,
     count: counts.get(c.slug) ?? 0,
   }));
 

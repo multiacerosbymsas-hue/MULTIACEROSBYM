@@ -171,6 +171,122 @@ export async function deleteOrder(formData: FormData) {
   redirect("/admin/pedidos?borrado=1");
 }
 
+/**
+ * Sube una imagen del panel al bucket público "site" y devuelve su URL pública.
+ * Solo se llama tras assertAdmin(); usa la llave de servicio para el storage.
+ */
+async function uploadSiteImage(file: File, folder: string): Promise<string> {
+  if (!file.type.startsWith("image/")) throw new Error("El archivo debe ser una imagen");
+  if (file.size > 8 * 1024 * 1024) throw new Error("La imagen no puede superar 8 MB");
+
+  const ext = (file.name.split(".").pop() || "jpg").toLowerCase().slice(0, 5);
+  const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+
+  const admin = createAdminClient();
+  const { error } = await admin.storage
+    .from("site")
+    .upload(path, file, { contentType: file.type, upsert: false });
+  if (error) throw new Error("No se pudo subir la imagen: " + error.message);
+
+  return admin.storage.from("site").getPublicUrl(path).data.publicUrl;
+}
+
+/** Guarda la promoción del mes (popup de entrada), con foto opcional nueva. */
+export async function updatePromo(formData: FormData) {
+  const supabase = await assertAdmin();
+
+  let image = String(formData.get("current_image") ?? "");
+  const file = formData.get("image");
+  if (file instanceof File && file.size > 0) {
+    image = await uploadSiteImage(file, "promo");
+  }
+
+  const promo = {
+    enabled: formData.get("enabled") === "on" && image !== "",
+    image,
+    eyebrow: String(formData.get("eyebrow") ?? "").trim() || "Promoción del mes",
+    title: String(formData.get("title") ?? "").trim(),
+    text: String(formData.get("text") ?? "").trim(),
+    ctaLabel: String(formData.get("ctaLabel") ?? "").trim(),
+    ctaHref: safeHref(String(formData.get("ctaHref") ?? "").trim()),
+  };
+
+  const { error } = await supabase
+    .from("site_content")
+    .upsert({ key: "promo_month", value: promo }, { onConflict: "key" });
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/");
+  redirect("/admin/promocion?ok=1");
+}
+
+/** Sube/cambia la foto de una familia del catálogo. */
+export async function updateFamilyImage(formData: FormData) {
+  const supabase = await assertAdmin();
+  const slug = String(formData.get("slug") ?? "");
+  if (!slug) throw new Error("Falta la familia");
+
+  const file = formData.get("image");
+  if (!(file instanceof File) || file.size === 0) {
+    redirect("/admin/familias?error=" + encodeURIComponent("Elige una foto primero."));
+  }
+  const url = await uploadSiteImage(file as File, "familias");
+
+  const { data } = await supabase
+    .from("site_content")
+    .select("value")
+    .eq("key", "family_images")
+    .maybeSingle();
+  const current = (data?.value as Record<string, string> | null) ?? {};
+
+  const { error } = await supabase
+    .from("site_content")
+    .upsert(
+      { key: "family_images", value: { ...current, [slug]: url } },
+      { onConflict: "key" }
+    );
+  if (error) throw new Error(error.message);
+
+  revalidateCatalog();
+  redirect("/admin/familias?ok=1");
+}
+
+/** Quita la foto personalizada de una familia (vuelve a la imagen por defecto). */
+export async function resetFamilyImage(formData: FormData) {
+  const supabase = await assertAdmin();
+  const slug = String(formData.get("slug") ?? "");
+
+  const { data } = await supabase
+    .from("site_content")
+    .select("value")
+    .eq("key", "family_images")
+    .maybeSingle();
+  const current = (data?.value as Record<string, string> | null) ?? {};
+  delete current[slug];
+
+  const { error } = await supabase
+    .from("site_content")
+    .upsert({ key: "family_images", value: current }, { onConflict: "key" });
+  if (error) throw new Error(error.message);
+
+  revalidateCatalog();
+  redirect("/admin/familias?ok=1");
+}
+
+/** Activa o suspende la pasarela de pago del checkout. */
+export async function setPaymentsEnabled(formData: FormData) {
+  const supabase = await assertAdmin();
+  const enabled = String(formData.get("enabled")) === "1";
+
+  const { error } = await supabase
+    .from("site_content")
+    .upsert({ key: "payments_gateway", value: { enabled } }, { onConflict: "key" });
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/checkout");
+  redirect("/admin/pagos?ok=1");
+}
+
 export async function updateHeroSlides(formData: FormData) {
   const supabase = await assertAdmin();
   const count = Number(formData.get("count") ?? 0);

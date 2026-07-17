@@ -12,9 +12,9 @@ export const company = {
   type: "Mayorista y minorista",
   sectors: ["Ornamentación", "Construcción", "Industrial", "Metalmecánico"],
 
-  // Contacto
-  phones: ["321 971 9719", "317 808 0270", "304 668 8112", "313 731 6512"],
-  whatsapp: "573219719719", // línea principal de cotización: Santiago Bayona Motta (formato internacional sin +)
+  // Contacto (el primero es el que se muestra arriba a la derecha del sitio)
+  phones: ["304 668 8112", "321 971 9719", "317 808 0270", "313 731 6512"],
+  whatsapp: "573046688112", // línea principal de cotización (Santiago Bayona Motta) — formato internacional sin +
   email: "multiacerosbymsas@gmail.com",
 
   addresses: [
@@ -33,6 +33,7 @@ export const company = {
     instagram: "https://www.instagram.com/bymmultiaceros?igsh=YjNqZmJ2enZua2ln",
     facebook: "https://www.facebook.com/share/1B5XEDbccH/",
     tiktok: "https://www.tiktok.com/@multiaceros.bm.sa?_r=1&_t=ZS-97XwtuFGKhh",
+    youtube: "https://www.youtube.com/@MULTIACEROSBYMSAS",
   },
 
   mission:

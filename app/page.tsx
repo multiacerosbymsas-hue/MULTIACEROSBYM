@@ -1,5 +1,6 @@
 import { HeroCarousel } from "@/components/home/HeroCarousel";
-import { getHeroSlides } from "@/lib/data/content.server";
+import { PromoModal } from "@/components/home/PromoModal";
+import { getHeroSlides, getPromo } from "@/lib/data/content.server";
 import { Marquee } from "@/components/home/Marquee";
 import { Categories } from "@/components/home/Categories";
 import { FeaturedProducts } from "@/components/home/FeaturedProducts";
@@ -12,9 +13,10 @@ import { Contact } from "@/components/home/Contact";
 export const revalidate = 3600;
 
 export default async function Home() {
-  const slides = await getHeroSlides();
+  const [slides, promo] = await Promise.all([getHeroSlides(), getPromo()]);
   return (
     <>
+      <PromoModal promo={promo} />
       <HeroCarousel slides={slides} />
       <Marquee />
       <Categories />
