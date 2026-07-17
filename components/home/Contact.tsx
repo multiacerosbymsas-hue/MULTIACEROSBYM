@@ -40,6 +40,12 @@ export function Contact() {
                   {a.line}
                   <br />
                   {a.city}
+                  <a
+                    href={`tel:+57${a.phone.replace(/\s/g, "")}`}
+                    className="mt-1.5 inline-flex items-center gap-1.5 font-medium text-brand transition-opacity hover:opacity-80"
+                  >
+                    <Phone size={13} className="shrink-0" /> {a.phone}
+                  </a>
                 </InfoCard>
               ))}
               <InfoCard icon={<Clock size={18} />} title="Horario">
@@ -120,6 +126,41 @@ export function Contact() {
             </a>
           </Reveal>
         </div>
+
+        {/* Video: cómo llegar a la sede */}
+        <Reveal className="mt-8">
+          <div className="grid items-center gap-6 rounded-[var(--radius-card)] border border-white/10 bg-white/5 p-6 sm:grid-cols-[auto_1fr] sm:gap-8 sm:p-8">
+            <video
+              src="/videos/ubicacion.mp4"
+              poster="/images/ubicacion-poster.jpg"
+              controls
+              playsInline
+              preload="none"
+              aria-label="Video de cómo llegar a MultiAceros B&M"
+              className="mx-auto aspect-[9/16] w-full max-w-[240px] rounded-2xl border border-white/10 bg-black object-cover"
+            />
+            <div>
+              <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-brand">
+                <Navigation size={14} /> Video de ubicación
+              </p>
+              <h3 className="mt-3 font-display text-2xl font-bold leading-tight sm:text-3xl">
+                Mira el recorrido hasta nuestra sede
+              </h3>
+              <p className="mt-3 max-w-md text-sm leading-relaxed text-white/70">
+                Grabamos un video corto para que llegues fácil a MultiAceros B&M
+                en el centro de Bucaramanga. Dale play y sigue el recorrido.
+              </p>
+              <a
+                href="https://www.google.com/maps/search/MULTIACEROS+B%26M+S.A.S+Bucaramanga"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-flex items-center gap-2 rounded-full bg-brand px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
+              >
+                <Navigation size={16} /> Abrir en Google Maps
+              </a>
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

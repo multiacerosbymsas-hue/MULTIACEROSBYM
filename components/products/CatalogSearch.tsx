@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import { Search } from "lucide-react";
 import { ProductGridCard } from "./ProductGridCard";
 import type { CatalogProduct } from "@/lib/data/catalog";
@@ -19,21 +20,30 @@ export function CatalogSearch({ products }: { products: CatalogProduct[] }) {
 
   return (
     <div>
-      <div className="relative mb-6 max-w-2xl">
-        <Search
-          size={18}
-          className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted"
+      <div className="mb-6 flex max-w-2xl items-center gap-3">
+        <Image
+          src="/images/logo-mark.png"
+          alt="MultiAceros B&M"
+          width={48}
+          height={48}
+          className="shrink-0 rounded-lg shadow-sm"
         />
-        <input
-          value={q}
-          onChange={(e) => {
-            setQ(e.target.value);
-            setLimit(24);
-          }}
-          aria-label="Buscar en el catálogo"
-          placeholder={`Buscar entre ${products.length.toLocaleString("es-CO")} productos por nombre o código…`}
-          className="w-full rounded-full border border-line bg-white py-3.5 pl-11 pr-4 text-sm shadow-sm outline-none transition-colors focus:border-brand"
-        />
+        <div className="relative flex-1">
+          <Search
+            size={18}
+            className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted"
+          />
+          <input
+            value={q}
+            onChange={(e) => {
+              setQ(e.target.value);
+              setLimit(24);
+            }}
+            aria-label="Buscar en el catálogo"
+            placeholder={`Buscar entre ${products.length.toLocaleString("es-CO")} productos por nombre o código…`}
+            className="w-full rounded-full border border-line bg-white py-3.5 pl-11 pr-4 text-sm shadow-sm outline-none transition-colors focus:border-brand"
+          />
+        </div>
       </div>
 
       {term === "" ? (

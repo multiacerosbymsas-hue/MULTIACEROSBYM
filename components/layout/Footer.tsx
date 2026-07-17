@@ -29,7 +29,7 @@ export function Footer() {
         <div className="lg:pr-6">
           <div className="flex items-center gap-3">
             <Image
-              src="/images/logo-full.jpg"
+              src="/images/logo-mark.png"
               alt={company.legalName}
               width={48}
               height={48}
@@ -76,17 +76,25 @@ export function Footer() {
         </FooterCol>
 
         <FooterCol title="Contacto">
-          <span className="flex items-start gap-2 text-sm text-white/60">
-            <MapPin size={16} className="mt-0.5 shrink-0 text-brand" />
-            {company.addresses[0].line}, {company.addresses[0].city}
-          </span>
-          <a
-            href={`tel:+57${company.phones[0].replace(/\s/g, "")}`}
-            className="flex items-center gap-2 text-sm text-white/60 transition-colors hover:text-white"
-          >
-            <Phone size={16} className="shrink-0 text-brand" />
-            {company.phones[0]}
-          </a>
+          {company.addresses.map((a) => (
+            <div key={a.label} className="text-sm text-white/60">
+              <div className="flex items-start gap-2">
+                <MapPin size={16} className="mt-0.5 shrink-0 text-brand" />
+                <span>
+                  <span className="font-semibold text-white/85">{a.label}</span>
+                  <br />
+                  {a.line}, {a.city}
+                </span>
+              </div>
+              <a
+                href={`tel:+57${a.phone.replace(/\s/g, "")}`}
+                className="ml-6 mt-1 inline-flex items-center gap-2 transition-colors hover:text-white"
+              >
+                <Phone size={14} className="shrink-0 text-brand" />
+                {a.phone}
+              </a>
+            </div>
+          ))}
           <a
             href={`mailto:${company.email}`}
             className="flex items-center gap-2 break-all text-sm text-white/60 transition-colors hover:text-white"

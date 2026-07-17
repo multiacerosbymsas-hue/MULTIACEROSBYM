@@ -89,7 +89,7 @@ export function Header() {
         <div className="container-x flex h-[68px] items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2.5" aria-label={company.legalName}>
             <Image
-              src="/images/logo-full.jpg"
+              src="/images/logo-mark.png"
               alt={company.legalName}
               width={44}
               height={44}

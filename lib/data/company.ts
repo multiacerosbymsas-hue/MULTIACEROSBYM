@@ -18,8 +18,8 @@ export const company = {
   email: "multiacerosbymsas@gmail.com",
 
   addresses: [
-    { label: "Sede principal", line: "Calle 28 # 13-25", city: "Bucaramanga, Santander" },
-    { label: "Sucursal", line: "Calle 28 # 10-43", city: "Bucaramanga, Santander" },
+    { label: "Sede principal", line: "Calle 28 # 13-25", city: "Bucaramanga, Santander", phone: "317 808 0270" },
+    { label: "Sucursal", line: "Calle 28 # 10-43", city: "Bucaramanga, Santander", phone: "304 668 8112" },
   ],
 
   hours: [
@@ -69,7 +69,7 @@ export type Advisor = {
 
 export const advisors: Advisor[] = [
   { name: "Santiago Bayona Motta", role: "Cotizaciones · Línea principal", whatsapp: company.whatsapp, photo: "/images/asesores/santiago-bayona.jpg" },
-  { name: "Alfonso Manuel Cabarcas Salas", role: "Asesor comercial", whatsapp: "573178080270", photo: "/images/asesores/alfonso-cabarcas.jpg" },
+  { name: "Alfonso Manuel Cabarcas Salas", role: "Asesor comercial", whatsapp: "573172795241", photo: "/images/asesores/alfonso-cabarcas.jpg" },
   { name: "Javier José Hernández Borja", role: "Asesor comercial", whatsapp: "573137316512", photo: "/images/asesores/javier-hernandez.jpg" },
   { name: "Luis Antonio Niño Contreras", role: "Asesor comercial", whatsapp: "573142114304", photo: "/images/asesores/antonio-nino.jpg" },
   { name: "Andertsonn Smollt Hinestroza Ascanio", role: "Asesor comercial", whatsapp: "573028153935", photo: "/images/asesores/anderson-hinestroza.jpg" },
