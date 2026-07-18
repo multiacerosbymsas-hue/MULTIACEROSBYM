@@ -13,8 +13,8 @@ export const company = {
   sectors: ["Ornamentación", "Construcción", "Industrial", "Metalmecánico"],
 
   // Contacto (el primero es el que se muestra arriba a la derecha del sitio)
-  phones: ["304 668 8112", "321 971 9719", "317 808 0270", "313 731 6512"],
-  whatsapp: "573046688112", // línea principal de cotización (Santiago Bayona Motta) — formato internacional sin +
+  phones: ["321 971 9719", "304 668 8112", "317 808 0270", "313 731 6512"],
+  whatsapp: "573219719719", // línea principal de cotización (Santiago Bayona Motta) — formato internacional sin +
   email: "multiacerosbymsas@gmail.com",
 
   addresses: [

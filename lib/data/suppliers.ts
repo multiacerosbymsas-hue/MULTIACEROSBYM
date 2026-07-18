@@ -18,4 +18,6 @@ export const suppliers: Supplier[] = [
   { name: "Yale", mono: "YA", tagline: "Seguridad y cerrajería", color: "#1A1A1A", logo: "/images/proveedores/yale.png" },
   { name: "Corpacero", mono: "CP", tagline: "Aliados de acero", color: "#0072CE", logo: "/images/proveedores/corpacero.png" },
   { name: "Acesco", mono: "AS", tagline: "Aceros planos", color: "#00857C", logo: "/images/proveedores/acesco.png" },
+  { name: "Ternium", mono: "TE", tagline: "Acero plano y largo", color: "#E8710A", logo: "/images/proveedores/ternium.webp" },
+  { name: "Plexim", mono: "PX", tagline: "Marca aliada", color: "#29ABE2", logo: "/images/proveedores/plexim.webp" },
 ];
