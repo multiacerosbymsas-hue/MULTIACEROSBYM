@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { setUserRole } from "@/lib/admin-actions";
+import { SubmitButton } from "@/components/ui/SubmitButton";
 
 export const metadata: Metadata = { title: "Panel · Usuarios" };
 
@@ -68,12 +69,9 @@ export default async function AdminUsuarios({
               />
             </label>
 
-            <button
-              type="submit"
-              className="rounded-full bg-ink px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand"
-            >
+            <SubmitButton className="rounded-full bg-ink px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand">
               Guardar
-            </button>
+            </SubmitButton>
           </form>
         ))}
         {(users?.length ?? 0) === 0 && (

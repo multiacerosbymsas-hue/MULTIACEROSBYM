@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { CreditCard, MessageCircle, ShieldAlert, ShieldCheck } from "lucide-react";
 import { getPaymentsEnabled } from "@/lib/data/content.server";
 import { setPaymentsEnabled } from "@/lib/admin-actions";
+import { SubmitButton } from "@/components/ui/SubmitButton";
 
 export const metadata: Metadata = { title: "Panel · Pasarela de pago" };
 
@@ -71,16 +72,16 @@ export default async function AdminPagos({
 
       <form action={setPaymentsEnabled} className="mt-6">
         <input type="hidden" name="enabled" value={enabled ? "0" : "1"} />
-        <button
-          type="submit"
+        <SubmitButton
           className={`rounded-full px-6 py-3 text-sm font-semibold text-white transition-colors ${
             enabled
               ? "bg-amber-600 hover:bg-amber-700"
               : "bg-green-600 hover:bg-green-700"
           }`}
+          pendingText="Aplicando…"
         >
           {enabled ? "Suspender pasarela de pago" : "Activar pasarela de pago"}
-        </button>
+        </SubmitButton>
       </form>
       <p className="mt-3 text-xs text-muted">
         El cambio aplica de inmediato en la página de “Finalizar pedido”.

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { categories } from "@/lib/data/categories";
 import { getFamilyImages } from "@/lib/data/content.server";
 import { updateFamilyImage, resetFamilyImage } from "@/lib/admin-actions";
+import { SubmitButton } from "@/components/ui/SubmitButton";
 
 export const metadata: Metadata = { title: "Panel · Fotos por familia" };
 
@@ -73,23 +74,23 @@ export default async function AdminFamilias({
                   aria-label={`Foto para ${c.name}`}
                   className="max-w-[180px] text-xs text-ink file:mr-2 file:rounded-full file:border-0 file:bg-paper file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-ink hover:file:bg-line"
                 />
-                <button
-                  type="submit"
+                <SubmitButton
                   className="rounded-full bg-brand px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-brand-dark"
+                  pendingText="Subiendo…"
                 >
                   Subir foto
-                </button>
+                </SubmitButton>
               </form>
 
               {custom && (
                 <form action={resetFamilyImage}>
                   <input type="hidden" name="slug" value={c.slug} />
-                  <button
-                    type="submit"
+                  <SubmitButton
                     className="rounded-full border border-line px-4 py-2 text-xs font-semibold text-muted transition-colors hover:text-ink"
+                    pendingText="…"
                   >
                     Restaurar
-                  </button>
+                  </SubmitButton>
                 </form>
               )}
             </div>

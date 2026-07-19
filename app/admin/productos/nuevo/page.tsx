@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { getCatalog } from "@/lib/data/catalog.server";
 import { categories } from "@/lib/data/categories";
 import { createProduct } from "@/lib/admin-actions";
+import { SubmitButton } from "@/components/ui/SubmitButton";
 
 export const metadata: Metadata = { title: "Panel · Nuevo producto" };
 
@@ -124,12 +125,12 @@ export default async function NuevoProducto({
         </label>
 
         <div className="flex gap-3 pt-2">
-          <button
-            type="submit"
+          <SubmitButton
             className="rounded-full bg-brand px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
+            pendingText="Creando…"
           >
             Crear producto
-          </button>
+          </SubmitButton>
           <Link
             href="/admin/productos"
             className="rounded-full border border-line px-6 py-2.5 text-sm font-semibold text-ink hover:border-ink"

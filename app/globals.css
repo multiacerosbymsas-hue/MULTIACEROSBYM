@@ -116,6 +116,79 @@
   animation: tipIn 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
+/* ---------- Modal de promoción (entrada premium) ---------- */
+@keyframes modalPop {
+  0% { opacity: 0; transform: translateY(18px) scale(0.94); }
+  100% { opacity: 1; transform: none; }
+}
+.animate-modal-pop {
+  animation: modalPop 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-overlay-in {
+  animation: overlayIn 0.35s ease-out;
+}
+/* Brillo que barre el botón principal del modal */
+@keyframes sheen {
+  0% { transform: translateX(-140%) skewX(-18deg); }
+  60%, 100% { transform: translateX(240%) skewX(-18deg); }
+}
+.btn-sheen::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 45%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  animation: sheen 2.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ---------- Botón "water glass" (feedback de carga en el panel) ---------- */
+.btn-glass {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.12s ease, filter 0.12s ease;
+}
+.btn-glass:active {
+  transform: scale(0.97);
+}
+.btn-glass:disabled {
+  cursor: progress;
+}
+/* Capa de "agua" que sube/llena dentro del botón mientras carga */
+.btn-glass-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.45),
+    rgba(255, 255, 255, 0.08) 45%,
+    rgba(255, 255, 255, 0.28)
+  );
+  border-right: 1.5px solid rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 8px 14px rgba(255, 255, 255, 0.3);
+}
+.btn-glass[data-pending] .btn-glass-fill {
+  animation: glassFill 1.05s ease-in-out infinite;
+}
+@keyframes glassFill {
+  0% { width: 0; opacity: 0.9; }
+  65% { width: 100%; opacity: 0.7; }
+  100% { width: 100%; opacity: 0; }
+}
+
 /* ---------- Reveal on scroll ---------- */
 .reveal {
   opacity: 0;
@@ -134,5 +207,9 @@
   .reveal { opacity: 1; transform: none; transition: none; }
   .animate-marquee { animation: none; }
   .animate-tip-in { animation: none; }
+  .animate-modal-pop { animation: none; }
+  .animate-overlay-in { animation: none; }
+  .btn-sheen::after { animation: none; display: none; }
+  .btn-glass[data-pending] .btn-glass-fill { animation: none; width: 100%; opacity: 0.4; }
   html { scroll-behavior: auto; }
 }

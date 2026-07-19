@@ -3,6 +3,7 @@ import Image from "next/image";
 import { getHeroSlides } from "@/lib/data/content.server";
 import { HERO_IMAGE_OPTIONS, type HeroSlide } from "@/lib/data/content";
 import { updateHeroSlides } from "@/lib/admin-actions";
+import { SubmitButton } from "@/components/ui/SubmitButton";
 
 export const metadata: Metadata = { title: "Panel · Contenido" };
 
@@ -128,12 +129,12 @@ export default async function AdminContenido({
           </fieldset>
         ))}
 
-        <button
-          type="submit"
+        <SubmitButton
           className="rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
+          pendingText="Guardando…"
         >
           Guardar carrusel
-        </button>
+        </SubmitButton>
       </form>
     </div>
   );

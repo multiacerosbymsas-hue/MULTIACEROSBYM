@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getPromo } from "@/lib/data/content.server";
 import { updatePromo } from "@/lib/admin-actions";
+import { SubmitButton } from "@/components/ui/SubmitButton";
 
 export const metadata: Metadata = { title: "Panel · Promoción del mes" };
 
@@ -107,12 +108,12 @@ export default async function AdminPromocion({
           )}
         </label>
 
-        <button
-          type="submit"
+        <SubmitButton
           className="rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
+          pendingText="Guardando…"
         >
           Guardar promoción
-        </button>
+        </SubmitButton>
       </form>
     </div>
   );

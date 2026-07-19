@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { updateProduct } from "@/lib/admin-actions";
+import { SubmitButton } from "@/components/ui/SubmitButton";
 
 export const metadata: Metadata = { title: "Panel · Editar producto" };
 
@@ -82,12 +83,12 @@ export default async function EditarProducto({
         </label>
 
         <div className="flex gap-3 pt-2">
-          <button
-            type="submit"
+          <SubmitButton
             className="rounded-full bg-brand px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
+            pendingText="Guardando…"
           >
             Guardar cambios
-          </button>
+          </SubmitButton>
           <Link
             href="/admin/productos"
             className="rounded-full border border-line px-6 py-2.5 text-sm font-semibold text-ink hover:border-ink"

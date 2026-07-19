@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { formatCOP } from "@/lib/utils/format";
 import { setOrderStatus } from "@/lib/admin-actions";
 import { DeleteOrderButton } from "@/components/admin/DeleteOrderButton";
+import { SubmitButton } from "@/components/ui/SubmitButton";
 
 export const metadata: Metadata = { title: "Panel · Pedidos" };
 
@@ -95,12 +96,9 @@ export default async function AdminPedidos({
                   </option>
                 ))}
               </select>
-              <button
-                type="submit"
-                className="rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand"
-              >
+              <SubmitButton className="rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand">
                 Guardar
-              </button>
+              </SubmitButton>
             </form>
             <DeleteOrderButton id={o.id} />
           </div>
