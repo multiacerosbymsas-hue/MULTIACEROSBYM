@@ -17,7 +17,7 @@ export const categories: Category[] = [
     slug: "tuberia-perfileria",
     name: "Tubería y Perfilería",
     blurb: "Cerramiento, estructural, mueble y perfiles para toda obra.",
-    image: "/images/tuberia-perfiles.jpg",
+    image: "/images/catalogo/tuberia-perfileria/tuberia-cerramiento-negro.webp",
     includes: [
       "Tubería cerramiento negra y galvanizada",
       "Tubería cuadrada y rectangular",
@@ -30,7 +30,7 @@ export const categories: Category[] = [
     slug: "laminas-aceros",
     name: "Láminas y Aceros",
     blurb: "Cold rolled, hot rolled, galvanizada, alfajor e inoxidable.",
-    image: "/images/aceros-variedades.jpg",
+    image: "/images/catalogo/laminas-aceros/lamina-alfajor.webp",
     includes: [
       "Lámina CR y HR",
       "Lámina galvanizada e inoxidable",

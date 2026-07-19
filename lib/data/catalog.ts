@@ -4,6 +4,7 @@
  * La carga de datos (Supabase) está en `catalog.server.ts`.
  */
 import { categories } from "./categories";
+import { sectionImage } from "./section-images";
 
 export type CatalogProduct = {
   code: string;
@@ -122,7 +123,7 @@ export function buildReferences(products: CatalogProduct[]): Reference[] {
       name: tidyName(section),
       section,
       family: items[0].family,
-      image: familyImage(items[0].family),
+      image: sectionImage(section) ?? familyImage(items[0].family),
       count: items.length,
       priceMin: prices.length ? Math.min(...prices) : null,
       priceMax: prices.length ? Math.max(...prices) : null,
