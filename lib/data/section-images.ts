@@ -41,6 +41,13 @@ const RAW: Record<string, string> = {
   "VARILLA GRAFIL": "/images/catalogo/angulos-platinas-varilla/varilla-grafil.webp",
   "VARILLA INOXIDABLE": "/images/catalogo/angulos-platinas-varilla/varilla-inoxidable.webp",
   "VARILLA LISA": "/images/catalogo/angulos-platinas-varilla/varilla-lisa.webp",
+
+  // Cerramiento, Alambre y Malla
+  "ALAMBRES": "/images/catalogo/cerramiento-alambre-malla/alambres.webp",
+  "ALAMBRE DE PUA": "/images/catalogo/cerramiento-alambre-malla/alambre-de-pua.webp",
+  "CONCERTINA": "/images/catalogo/cerramiento-alambre-malla/concertina.webp",
+  "GAVIONES": "/images/catalogo/cerramiento-alambre-malla/gaviones.webp",
+  "MALLAS": "/images/catalogo/cerramiento-alambre-malla/mallas.webp",
 };
 
 /** Normaliza el nombre de sección para la búsqueda (mayúsculas, sin acentos ni espacios extra). */

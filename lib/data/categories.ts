@@ -78,7 +78,7 @@ export const categories: Category[] = [
     slug: "cerramiento-alambre-malla",
     name: "Cerramiento, Alambre y Malla",
     blurb: "Soluciones de seguridad perimetral y delimitación.",
-    image: "/images/ladrillos.jpg",
+    image: "/images/catalogo/cerramiento-alambre-malla/alambres.webp",
     includes: [
       "Alambre de púa y galvanizado",
       "Concertina",
