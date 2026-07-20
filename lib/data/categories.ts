@@ -42,7 +42,7 @@ export const categories: Category[] = [
     slug: "angulos-platinas-varilla",
     name: "Ángulos, Platinas y Varilla",
     blurb: "Perfilería estructural y varilla para refuerzo y ornamentación.",
-    image: "/images/angulos.jpg",
+    image: "/images/catalogo/angulos-platinas-varilla/varilla-corrugada.webp",
     includes: [
       "Ángulos y platinas",
       "Varilla corrugada y lisa",

@@ -32,6 +32,15 @@ const RAW: Record<string, string> = {
   "LAMINA GALVANIZADA": "/images/catalogo/laminas-aceros/lamina-galvanizada.webp",
   "LAMINA INOXIDABLE": "/images/catalogo/laminas-aceros/lamina-inoxidable.webp",
   "LAMINA PERFORADA": "/images/catalogo/laminas-aceros/lamina-perforada.webp",
+
+  // Ángulos, Platinas y Varilla
+  "ANGULOS": "/images/catalogo/angulos-platinas-varilla/angulos.webp",
+  "PLATINAS": "/images/catalogo/angulos-platinas-varilla/platinas.webp",
+  "VARILLA CORRUGADA": "/images/catalogo/angulos-platinas-varilla/varilla-corrugada.webp",
+  "VARILLA CUADRADA": "/images/catalogo/angulos-platinas-varilla/varilla-cuadrada.webp",
+  "VARILLA GRAFIL": "/images/catalogo/angulos-platinas-varilla/varilla-grafil.webp",
+  "VARILLA INOXIDABLE": "/images/catalogo/angulos-platinas-varilla/varilla-inoxidable.webp",
+  "VARILLA LISA": "/images/catalogo/angulos-platinas-varilla/varilla-lisa.webp",
 };
 
 /** Normaliza el nombre de sección para la búsqueda (mayúsculas, sin acentos ni espacios extra). */
