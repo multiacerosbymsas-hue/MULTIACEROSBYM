@@ -54,6 +54,7 @@ export type HeroSlide = {
 
 /** Imágenes disponibles para elegir en el panel (las que hay en /public/images). */
 export const HERO_IMAGE_OPTIONS = [
+  "/images/banner-carrusel.webp",
   "/images/hero-acero.jpg",
   "/images/cubiertas-arquitectonicas.jpg",
   "/images/tuberia-perfiles.jpg",
@@ -96,7 +97,7 @@ export const DEFAULT_HERO_SLIDES: HeroSlide[] = [
     ctaHref: "/categoria/tuberia-perfileria",
   },
   {
-    image: "/images/kit-herramientas.jpg",
+    image: "/images/banner-carrusel.webp",
     eyebrow: "Herramientas y ferretería",
     title: "Todo para *la obra* y el taller",
     subtitle:
