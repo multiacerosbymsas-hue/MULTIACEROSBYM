@@ -48,6 +48,15 @@ const RAW: Record<string, string> = {
   "CONCERTINA": "/images/catalogo/cerramiento-alambre-malla/concertina.webp",
   "GAVIONES": "/images/catalogo/cerramiento-alambre-malla/gaviones.webp",
   "MALLAS": "/images/catalogo/cerramiento-alambre-malla/mallas.webp",
+
+  // Pintura, Soldadura y Químicos
+  "AEROSOLES": "/images/catalogo/pintura-soldadura-quimicos/aerosoles.webp",
+  "ANTICORROSIVO": "/images/catalogo/pintura-soldadura-quimicos/anticorrosivo.webp",
+  "ESMALTES": "/images/catalogo/pintura-soldadura-quimicos/esmaltes.webp",
+  "HUESO DURO Y MASILLAS": "/images/catalogo/pintura-soldadura-quimicos/hueso-duro-y-masillas.webp",
+  "LIJAS": "/images/catalogo/pintura-soldadura-quimicos/lijas.webp",
+  "SOLDADURA": "/images/catalogo/pintura-soldadura-quimicos/soldadura.webp",
+  "THINNER": "/images/catalogo/pintura-soldadura-quimicos/thinner.webp",
 };
 
 /** Normaliza el nombre de sección para la búsqueda (mayúsculas, sin acentos ni espacios extra). */

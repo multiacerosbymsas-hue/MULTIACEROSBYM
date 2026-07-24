@@ -90,7 +90,7 @@ export const categories: Category[] = [
     slug: "pintura-soldadura-quimicos",
     name: "Pintura, Soldadura y Químicos",
     blurb: "Anticorrosivos, esmaltes, soldadura y acabados.",
-    image: "/images/teja-colonial.jpg",
+    image: "/images/catalogo/pintura-soldadura-quimicos/esmaltes.webp",
     includes: [
       "Anticorrosivo y esmaltes",
       "Aerosoles y thinner",
